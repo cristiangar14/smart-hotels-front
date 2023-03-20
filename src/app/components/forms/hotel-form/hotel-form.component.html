@@ -1,0 +1,266 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Crear hotel
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="formCreateHotel" (ngSubmit)="onSubmit()">
+      <mat-checkbox formControlName="active">
+        Activo
+      </mat-checkbox>
+      <div class="formCreateHotel_basic">
+        <mat-form-field appearance="fill">
+          <mat-label for="name">Nombre</mat-label>
+          <input matInput formControlName="name" type="text" class="form-control" />
+          <mat-error *ngIf="isFieldInvalid('name', 'required')">
+            {{ errorMessage.name.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('name', 'minlength')">
+            {{ errorMessage.name.minlength }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('name', 'maxlength')">
+            {{ errorMessage.name.maxlength }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Texto de portada</mat-label>
+          <textarea maxlength="250" matInput formControlName="coverText" class="form-control"></textarea>
+          <mat-error *ngIf="isFieldInvalid('coverText', 'required')">
+            {{ errorMessage.coverText.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('coverText', 'minlength')">
+            {{ errorMessage.coverText.minlength }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('coverText', 'maxlength')">
+            {{ errorMessage.coverText.maxlength }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Servicios ofrecidos</mat-label>
+          <textarea maxlength="250" matInput formControlName="services" class="form-control"></textarea>
+          <mat-error *ngIf="isFieldInvalid('services', 'required')">
+            {{ errorMessage.services.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('services', 'minlength')">
+            {{ errorMessage.services.minlength }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('services', 'maxlength')">
+            {{ errorMessage.services.maxlength }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="formCreateHotel_images" >
+        <mat-card-subtitle>
+          Imagenes
+        </mat-card-subtitle>
+        <div formArrayName="images">
+          <div  *ngFor="let image of imagesForm.controls; let i=index">
+            <div [formGroupName]="i" class="image">
+              <mat-form-field appearance="fill">
+                <mat-label>Url</mat-label>
+                <input matInput type="text" id="image-url-{{i}}" formControlName="url">
+                <mat-error *ngIf="isFieldInvalid('images.' + i + '.url', 'required')">
+                  {{ errorMessage.url.required }}
+                </mat-error>
+                <mat-error *ngIf="isFieldInvalid('images.' + i + '.url', 'minlength')">
+                  {{ errorMessage.url.minlength }}
+                </mat-error>
+              </mat-form-field>
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  type="button"
+                  (click)="removeImage(i)"
+                  aria-label="Example icon button with a delete icon">
+                  <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+          </div>
+        </div>
+        <button
+          class="btn-passenger"
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="addImages()"
+        >
+          Agregar Imagen
+        </button>
+      </div>
+
+      <div class="formCreateHotel_commonAreas" formGroupName="commonAreas">
+        <mat-card-subtitle>
+          Adicionales
+        </mat-card-subtitle>
+        <div class="formCreateHotel_commonAreas-container">
+          <mat-checkbox formControlName="pool">
+            Piscina
+          </mat-checkbox>
+          <mat-checkbox formControlName="parkingLot">
+            Parqueadero
+          </mat-checkbox>
+          <mat-checkbox formControlName="sauna">
+            Sauna
+          </mat-checkbox>
+          <mat-checkbox formControlName="jacuzzi">
+            Jacuzzi
+          </mat-checkbox>
+          <mat-checkbox formControlName="bar">
+            Bar
+          </mat-checkbox>
+          <mat-checkbox formControlName="restaurant">
+            Restaurante
+          </mat-checkbox>
+          <mat-checkbox formControlName="campingArea">
+            Zona Camping
+          </mat-checkbox>
+        </div>
+       </div>
+      <div class="formCreateHotel_contact" formGroupName="contact">
+        <mat-form-field appearance="fill">
+          <mat-label for="">Email</mat-label>
+          <input matInput formControlName="email" type="email" class="form-control" />
+          <mat-error *ngIf="isFieldInvalid('contact.email', 'required')">
+            {{ errorMessage.email.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('contact.email', 'email')">
+            {{ errorMessage.email.email }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label for="">Telefono</mat-label>
+          <input matInput formControlName="phone" type="tel" class="form-control" />
+          <mat-error *ngIf="isFieldInvalid('contact.phone', 'required')">
+            {{ errorMessage.phone.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('contact.phone', 'minlength')">
+            {{ errorMessage.phone.minlength }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('contact.phone', 'maxlength')">
+            {{ errorMessage.phone.maxlength }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formCreateHotel_location" formGroupName="location">
+        <mat-form-field appearance="fill">
+          <mat-label for="">Dirección</mat-label>
+          <input matInput formControlName="address" type="text" class="form-control" />
+          <mat-error *ngIf="isFieldInvalid('location.address', 'required')">
+            {{ errorMessage.address.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('location.address', 'minlength')">
+            {{ errorMessage.address.minlength }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('location.address', 'maxlength')">
+            {{ errorMessage.address.maxlength }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Ciudad</mat-label>
+          <mat-select formControlName="city">
+            <mat-option *ngFor="let city of cities" [value]="city.code">{{city.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="isFieldInvalid('location.city', 'required')">
+            {{ errorMessage.city.required }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formCreateHotel_rooms">
+        <mat-card-subtitle>
+          Habitaciones
+        </mat-card-subtitle>
+        <div formArrayName="rooms">
+          <div  *ngFor="let room of roomsForm.controls; let i=index">
+            <div class="formCreateHotel_rooms-item" [formGroupName]="i">
+
+              <mat-form-field appearance="fill">
+                <mat-label>Codigo</mat-label>
+                <input matInput type="text" id="room-code-{{i}}" formControlName="code">
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.code', 'required')">
+                  {{ errorMessage.code.required }}
+                </mat-error>
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.code', 'maxlength')">
+                  {{ errorMessage.code.maxlength }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Capacidad</mat-label>
+                <input matInput type="number" id="room-capacity-{{i}}" formControlName="capacity">
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.capacity', 'required')">
+                  {{ errorMessage.capacity.required }}
+                </mat-error>
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.capacity', 'min')">
+                  {{ errorMessage.capacity.min }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let type of roomTypes" [value]="type.code">{{type.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.type', 'required')">
+                  {{ errorMessage.type.required }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Costo Basico</mat-label>
+                <input matInput type="text" id="room-basisCost-{{i}}" formControlName="basisCost">
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.basisCost', 'required')">
+                  {{ errorMessage.basisCost.required }}
+                </mat-error>
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.basisCost', 'min')">
+                  {{ errorMessage.basisCost.min }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>% impuesto</mat-label>
+                <input matInput type="text" id="room-tax-{{i}}" formControlName="tax">
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.tax', 'required')">
+                  {{ errorMessage.tax.required }}
+                </mat-error>
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.tax', 'min')">
+                  {{ errorMessage.tax.min }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Localización</mat-label>
+                <input matInput type="text" id="room-location-{{i}}" formControlName="location">
+              </mat-form-field>
+              <mat-checkbox formControlName="available" id="room-available-{{i}}">
+                Disponible
+              </mat-checkbox>
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  type="button"
+                  (click)="removeRoom(i)"
+                  aria-label="Example icon button with a delete icon">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+            </div>
+          </div>
+        </div>
+        <button
+          class="btn-passenger"
+          mat-raised-button
+          color="accent"
+          type="button"
+          (click)="addRomms()"
+        >
+          Agregar Habitacion
+        </button>
+      </div>
+
+      <button
+      mat-raised-button
+      color="primary"
+      [disabled]="formCreateHotel.invalid"
+      type="submit"
+      >
+      Guardar</button>
+    </form>
+  </mat-card-content>
+<mat-card>
