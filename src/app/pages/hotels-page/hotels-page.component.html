@@ -1,0 +1,8 @@
+<p>hotels-page works!</p>
+
+<div *ngFor="let hotel of listHotels; let i=index" class="">
+  <div class="">
+    <h6>{{hotel.name}}</h6>
+    <button (click)="passDetail(hotel)">detalles</button>
+  </div>
+</div>
