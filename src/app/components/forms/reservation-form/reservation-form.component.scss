@@ -1,0 +1,40 @@
+:host{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+mat-card{
+  width: 90vw;
+  max-width: 900px;
+  margin: 2em;
+  text-align: center;
+}
+
+mat-card-header{
+  display: unset;
+}
+mat-card-header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group-booking, .passenger{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5%;
+}
+
+.btn-passenger, mat-card-subtitle{
+  margin-bottom: 2em;
+}
+
+mat-form-field{
+  display: block;
+  min-width: 300px;
+  width: 47.5%;
+}
