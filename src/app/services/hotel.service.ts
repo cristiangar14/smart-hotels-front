@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { delay, filter, Observable, of } from 'rxjs';
 import { HOTEL_LIST } from '../mocks/hotels.mocks';
-import { IHotel } from '../models/hotel.interface';
+import { IHotel } from '../core/models/hotel.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +11,21 @@ export class HotelService {
 
   constructor() { }
 
-  getHotels(filter?:string): Promise<IHotel[]>{
+  getHotelsDataApi(): Observable<IHotel[]>{
+    return of(this.hotelList).pipe(
+        delay(1500)
+      )
+  }
 
-    if (filter) {
-      let listHotel:IHotel[] = this.hotelList.filter((hotel:IHotel) => hotel._id !== filter)
-      return Promise.resolve(listHotel)
-    } else {
-      return Promise.resolve(this.hotelList)
-    }
+  getHotelById(id:string): Observable<IHotel>{
+    return of(this.hotelList[0]).pipe(
+      delay(1500)
+    )
 
+  }
 
+  createHotel(hotel:any){
+    console.log('servicio',hotel)
   }
 
 }
