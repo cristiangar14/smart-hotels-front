@@ -1,15 +1,11 @@
 <mat-card class="hotel-card">
   <mat-card-header>
     <mat-card-title>{{data.name}}</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    <mat-card-subtitle>{{data.location.city}}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <img mat-card-image src={{data.images[0].url}} alt="Photo of a Shiba Inu">
   <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
+    <p>{{data.coverText}}</p>
   </mat-card-content>
   <mat-card-actions>
     <button
@@ -17,10 +13,7 @@
       mat-raised-button
       color="accent"
     >Ver</button>
-    <button
-      (click)="passReservation(data)"
-      mat-raised-button
-      color="primary">Reservar</button>
+
   </mat-card-actions>
 </mat-card>
 

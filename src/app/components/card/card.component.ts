@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { IHotel } from 'src/app/core/models/hotel.interface';
 
@@ -7,30 +7,21 @@ import { IHotel } from 'src/app/core/models/hotel.interface';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
-export class CardComponent {
+export class CardComponent implements OnInit{
 
   @Input() data: any
+
+  dataPrint: {} = {}
 
   constructor(
     private router: Router,
     ){}
+  ngOnInit(): void {
+    this.dataPrint = {...this.data}
+  }
 
   passDetail(hotel:IHotel){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        data: hotel
-      },
-    }
-    this.router.navigate([`/hotels/${hotel._id}`], navigationExtras)
-  }
 
-  passReservation(hotel:IHotel){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        data: hotel
-      },
-    }
-    this.router.navigate([`/reservation/${hotel._id}`], navigationExtras)
+    this.router.navigate([`/hotels/${hotel.id}`])
   }
-
 }
