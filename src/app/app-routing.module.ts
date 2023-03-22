@@ -7,25 +7,30 @@ import { ReservationListComponent } from './components/reservation-list/reservat
 import { AuthGuard } from './guards/auth.guard';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { HotelDetailPageComponent } from './pages/hotel-detail-page/hotel-detail-page.component';
+import { ListHotelsComponent } from './pages/list-hotels/list-hotels.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 
 const routes: Routes = [
+   {
+     path:'',
+     pathMatch: 'full',
+     redirectTo: 'home',
+   },
   {
-    path:'',
-    pathMatch: 'full',
-    redirectTo: 'home',
+    path:'home',
+    component: HomePageComponent,
   },
   {
     path:'login',
     component: LoginPageComponent,
   },
   {
-    path:'home',
-    component: HomePageComponent,
+    path:'table',
+    component: ListHotelsComponent,
   },
   {
-    path:'reservation/:id',
+    path:'reservation',
     component: ReservationFormComponent,
   },
   {
