@@ -2,7 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CITIES } from 'src/app/mocks/cities.mocks';
 import { ROOMTYPES } from 'src/app/mocks/typesRooms.mocks';
-import { IRoomType } from 'src/app/models/roomType.interface';
+import { IRoomType } from 'src/app/core/models/roomType.interface';
+import { HotelService } from 'src/app/services/hotel.service';
+import { Store } from '@ngrx/store';
+import { Appstate } from 'src/app/state/app.reducers';
+import { sendCreateHotel } from 'src/app/state/actions/createHotel.actions';
+import { IHotel } from 'src/app/core/models/hotel.interface';
+import { sendCreateRooms } from 'src/app/state/actions';
+import { IRoom } from 'src/app/core/models/room.model';
 
 @Component({
   selector: 'app-hotel-form',
@@ -12,7 +19,8 @@ import { IRoomType } from 'src/app/models/roomType.interface';
 export class HotelFormComponent  implements OnInit {
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: Store<Appstate>
     ){}
 
   formCreateHotel: FormGroup = new FormGroup({});
@@ -210,13 +218,40 @@ export class HotelFormComponent  implements OnInit {
 
   onSubmit() {
     if (this.formCreateHotel.valid) {
-      // TODO: enviar datos al servicio
-      console.log('Formulario válido')
-      console.log(this.formCreateHotel.value)
+
+      const {
+        name,
+        rooms,
+        coverText,
+        services,
+        active,
+        commonAreas,
+        location,
+        images,
+      } = this.formCreateHotel.value;
+
+      const newHotel: IHotel = {
+        name,
+        coverText,
+        active,
+        commonAreas,
+        location,
+        images,
+        services,
+        numberRooms: this.roomsForm.length
+      }
+      const newRooms = [...rooms]
+
+      this.store.dispatch(sendCreateHotel({newHotel}));
+      this.store.select('createHotel').subscribe(({id, created, error}) => {
+        if (id) {
+          const hotelId = id;
+          this.store.dispatch(sendCreateRooms({newRooms, hotelId}))
+        }
+      })
       this.formCreateHotel.reset();
     } else {
-      console.log('Formulario inválido')
-      alert('Por favor, revise los campos del formulario')
+      return;
     }
   }
 
