@@ -2,12 +2,22 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+      [opened]="false">
+      <!-- [opened]="(isHandset$ | async) === false" -->
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item [routerLink]="['/']">Home
+      <a mat-list-item [routerLink]="['/']">
+        <mat-icon>home</mat-icon>
+        <span class="nav-caption">Home</span>
       </a>
-      <a mat-list-item [routerLink]="['/hotels']">Hoteles</a>
+      <a mat-list-item [routerLink]="['/reservationsList']">
+        <mat-icon>event</mat-icon>
+        Reservas
+      </a>
+      <a mat-list-item [routerLink]="['/createHotel']">
+        <mat-icon>add_location</mat-icon>
+        Crear Hotel
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -17,14 +27,32 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Smart Hotels</span>
+      <a mat-list-item [routerLink]="['/']">
+        <span>Smart Hotels</span>
+      </a>
       <span class="example-spacer"></span>
-      <button mat-icon-button class="favorite-icon" aria-label="Example icon-button with heart icon">
+      <button
+        id="logged-out-button"
+        mat-icon-button
+        class=""
+        aria-label=""
+        (click)="logout()"
+      >
         <mat-icon>logout</mat-icon>
       </button>
+      <button
+        mat-icon-button
+        class=""
+        aria-label=""
+        style="display:none;"
+        (click)="redirectLogin()"
+      >
+        <mat-icon>person</mat-icon>
+      </button>
+
 
     </mat-toolbar>
     <router-outlet></router-outlet>
