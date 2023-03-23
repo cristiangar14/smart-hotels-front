@@ -16,3 +16,17 @@ export const errorLoadedHotel = createAction(
   props<{ payload: any }>()
 );
 
+export const updateHotel = createAction(
+  '[Hotel] update hotel',
+  props<{ hotel: IHotel }>()
+);
+
+export const updatedHotel = createAction(
+  '[Hotel] update success',
+  props<{ message:string }>()
+);
+
+export const errorUpdateHotel = createAction(
+  '[Hotel] error update',
+  props<{ payload: any }>()
+);
