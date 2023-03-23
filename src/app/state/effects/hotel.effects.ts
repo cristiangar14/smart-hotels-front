@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { map, exhaustMap, catchError, tap } from 'rxjs/operators';
 import { HotelService } from 'src/app/services/hotel.service';
-import { errorLoadedHotel, loadedHotel, loadHotel } from '../actions';
+import { errorLoadedHotel, errorUpdateHotel, loadedHotel, loadHotel, updatedHotel, updateHotel } from '../actions';
 
 @Injectable()
 export class HotelEffects {
@@ -12,7 +12,7 @@ export class HotelEffects {
       private hotelService: HotelService
     ) {}
 
-   loadHotels$ = createEffect(() => this.actions$.pipe(
+   loadHotel$ = createEffect(() => this.actions$.pipe(
      ofType(loadHotel),
      exhaustMap((action) => this.hotelService.getHotelById(action.id)
        .pipe(
@@ -21,5 +21,15 @@ export class HotelEffects {
        ))
      )
    );
+
+   updateHotel$ = createEffect(() => this.actions$.pipe(
+    ofType(updateHotel),
+    exhaustMap((action) => this.hotelService.updateHotel(action.hotel)
+      .pipe(
+        map(message => updatedHotel({message})),
+        catchError(err => of(errorUpdateHotel({payload: err})))
+      ))
+    )
+  );
 
 }
