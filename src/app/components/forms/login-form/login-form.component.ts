@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth.service';
+import { Appstate } from 'src/app/state/app.reducers';
 
 @Component({
   selector: 'app-login-form',
@@ -28,12 +30,13 @@ export class LoginFormComponent implements OnInit{
 
 
   constructor(
-      private formBuilder: FormBuilder
+      private formBuilder: FormBuilder,
+      private store: Store<Appstate>
     ){}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email:['', Validators.compose([Validators.required, Validators.email])],
+      email:['algo@algo.com', Validators.compose([Validators.required, Validators.email])],
       password:['', Validators.required]
     })
 
