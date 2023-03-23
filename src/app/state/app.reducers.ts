@@ -3,6 +3,7 @@ import { CreateBookingState } from "../core/models/booking.state";
 import { CreateHotelState, HotelState, UpdateHotelState } from "../core/models/hotel.state";
 import { HotelsState } from "../core/models/hotels.state";
 import { CreateRoomState, GetRoomsByHotelState, UpdateRoomState } from "../core/models/room.state";
+import { UserState } from "../core/models/user.state";
 import * as reducers from './reducers'
 import { UIState } from "./reducers/ui.reducer";
 
@@ -17,6 +18,7 @@ export interface Appstate {
   updateHotel: UpdateHotelState;
   getRoomsByHotel: GetRoomsByHotelState;
   updateRoom: UpdateRoomState;
+  auth: UserState
   ui: UIState
 }
 
@@ -30,6 +32,7 @@ export const appReducers: ActionReducerMap<Appstate> = {
   updateHotel: reducers.updateHotelReducer,
   getRoomsByHotel: reducers.getRoomsByHotelReducer,
   updateRoom: reducers.updateRoomReducer,
-  ui: reducers.uiReducer
+  ui: reducers.uiReducer,
+  auth: reducers.authReducer
 
 }

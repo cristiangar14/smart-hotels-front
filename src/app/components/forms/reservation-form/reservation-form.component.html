@@ -7,25 +7,22 @@
   <mat-card-content>
     <form [formGroup]="formReservation" (ngSubmit)="onSubmit()">
       <div >
-        <mat-card-subtitle>
-          Pasajeros
-        </mat-card-subtitle>
-        <div formArrayName="passengers">
-          <div  *ngFor="let passenger of passengerForm.controls; let i=index">
+        <div formArrayName="guests">
+          <div  *ngFor="let guest of guestsForm.controls; let i=index">
             <mat-card-subtitle>
-              Pasajero {{i+1}}
+              {{ i === 0 ? 'Responsable': 'Acompañante ' + i}}
             </mat-card-subtitle>
-            <div class="form-group-booking" class="passenger" [formGroupName]="i">
+            <div class="form-group-booking" class="guest" [formGroupName]="i">
               <mat-form-field appearance="fill">
                 <mat-label>Nombre</mat-label>
-                <input matInput type="text" id="passenger-name-{{i}}" formControlName="name" required>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.name', 'required')">
+                <input matInput type="text" id="guest-name-{{i}}" formControlName="name" required>
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.name', 'required')">
                   {{ errorMessage.name.required }}
                 </mat-error>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.name', 'minlength')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.name', 'minlength')">
                   {{ errorMessage.name.minlength }}
                 </mat-error>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.name', 'maxlength')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.name', 'maxlength')">
                   {{ errorMessage.name.maxlength }}
                 </mat-error>
               </mat-form-field>
@@ -36,53 +33,53 @@
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.dateOfBirth', 'required')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.dateOfBirth', 'required')">
                   {{ errorMessage.dateOfBirth.required }}
                 </mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="fill" >
                 <mat-label >Correo Electronico</mat-label>
-                <input matInput type="text" id="passenger-email-{{i}}" formControlName="email" required>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.email', 'required')">
+                <input matInput type="text" id="guest-email-{{i}}" formControlName="email" required>
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.email', 'required')">
                   {{ errorMessage.email.required }}
                 </mat-error>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.email', 'email')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.email', 'email')">
                   {{ errorMessage.email.email }}
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="fill">
                 <mat-label >Celular</mat-label>
-                <input matInput type="tel" id="passenger-phone-{{i}}" formControlName="phone" required>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.phone', 'required')">
+                <input matInput type="tel" id="guest-phone-{{i}}" formControlName="phone" required>
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.phone', 'required')">
                   {{ errorMessage.phone.required }}
                 </mat-error>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.phone', 'minlength')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.phone', 'minlength')">
                   {{ errorMessage.phone.minlength }}
                 </mat-error>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.phone', 'maxlength')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.phone', 'maxlength')">
                   {{ errorMessage.phone.maxlength }}
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="fill">
                 <mat-label>Tipo de documento</mat-label>
-                <mat-select id="passenger-documentType-{{i}}" formControlName="documentType">
+                <mat-select id="guest-documentType-{{i}}" formControlName="documentType">
                   <mat-option *ngFor="let type of documentTypes" [value]="type.value">{{type.title}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.documentType', 'required')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.documentType', 'required')">
                   {{ errorMessage.documentType.required }}
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="fill">
                 <mat-label >Documento</mat-label>
-                <input matInput type="number" id="passenger-document-{{i}}" formControlName="document" required>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.document', 'required')">
+                <input matInput type="number" id="guest-document-{{i}}" formControlName="document" required>
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.document', 'required')">
                   {{ errorMessage.document.required }}
                 </mat-error>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.document', 'minlength')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.document', 'minlength')">
                   {{ errorMessage.document.minlength }}
                 </mat-error>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.document', 'maxlength')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.document', 'maxlength')">
                   {{ errorMessage.document.maxlength }}
                 </mat-error>
               </mat-form-field>
@@ -92,7 +89,7 @@
                 <mat-select formControlName="gender">
                   <mat-option *ngFor="let gender of genders" [value]="gender.value">{{gender.title}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="isFieldInvalid('passengers.' + i + '.gender', 'required')">
+                <mat-error *ngIf="isFieldInvalid('guests.' + i + '.gender', 'required')">
                   {{ errorMessage.gender.required }}
                 </mat-error>
               </mat-form-field>
@@ -100,19 +97,22 @@
           </div>
         </div>
         <button
-          class="btn-passenger"
+          class="btn-guest"
           mat-raised-button
           color="accent"
           type="button"
-          [disabled]="disableAddPassanger"
-          (click)="addPasseger()"
+          [disabled]="disableAddGuest"
+          (click)="addGuest()"
         >
-          Agregar pasajero
+          Agregar Huesped
         </button>
       </div>
+      <mat-card-subtitle>
+        En caso de emergencia
+      </mat-card-subtitle>
       <div class="form-group-booking" formGroupName="emergencyContact">
         <mat-form-field appearance="fill">
-          <mat-label for="emergencyContactName">Nombre del contacto de emergencia</mat-label>
+          <mat-label for="emergencyContactName">Nombre del contacto</mat-label>
           <input matInput formControlName="name" type="text" class="form-control" />
           <mat-error *ngIf="isFieldInvalid('emergencyContact.name', 'required')">
             {{ errorMessage.name.required }}
@@ -125,7 +125,7 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field >
-          <mat-label for="emergency-contact-phone">Teléfono del contacto de emergencia</mat-label>
+          <mat-label for="emergency-contact-phone">Teléfono</mat-label>
           <input matInput type="tel" id="emergency-contact-phone" formControlName="phone" required>
           <mat-error *ngIf="isFieldInvalid('emergencyContact.phone', 'required')">
             {{ errorMessage.phone.required }}
@@ -140,9 +140,17 @@
       </div>
       <button
       mat-raised-button
+      color="disabled"
+      [disabled]="true"
+      *ngIf="loading"
+      >
+      Enviando...</button>
+      <button
+      mat-raised-button
       color="primary"
       [disabled]="formReservation.invalid"
       type="submit"
+      *ngIf="!loading"
       >
       Enviar</button>
     </form>

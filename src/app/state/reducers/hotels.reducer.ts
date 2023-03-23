@@ -1,17 +1,25 @@
 import { createReducer, on } from '@ngrx/store';
 import { HotelsState } from 'src/app/core/models/hotels.state';
-import { loadedHotels, loadHotels, errorLoadedHotels } from '../actions';
+import { loadedHotels, loadHotels, errorLoadedHotels, loadHotelsByFilter } from '../actions';
 
 export const hotelsInitialState: HotelsState = {
   loading:false,
   loaded:false,
   error: null,
   hotels:[],
+  filter: null,
 }
 
 const _hotelsReducer = createReducer(
   hotelsInitialState,
   on(loadHotels, (state) => ({...state, loading: true})),
+  on(loadHotelsByFilter, (state, {payload}) => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    filter: {...payload}
+
+  })),
   on(loadedHotels, (state, {hotels}) => ({
     ...state,
     loading: false,

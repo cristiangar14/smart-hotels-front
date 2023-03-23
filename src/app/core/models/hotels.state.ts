@@ -5,4 +5,5 @@ export interface HotelsState{
   loading: boolean,
   loaded: boolean,
   error: any,
+  filter: any,
 }

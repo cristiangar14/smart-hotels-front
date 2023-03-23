@@ -1,0 +1,31 @@
+<div class="hotelDetailBookingForm-container">
+  <form
+    [formGroup]="hotelFilter"
+    class="hotelDetailBookingForm"
+  >
+  <mat-form-field class="range-filter" appearance="outline">
+    <mat-label>Cuando</mat-label>
+    <mat-date-range-input  [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Llegada">
+        <input matEndDate formControlName="end" placeholder="Salida">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+    </mat-form-field>
+    <mat-form-field class="city-filter" appearance="outline">
+      <mat-label>Ciudad</mat-label>
+      <mat-select formControlName="city">
+        <mat-option *ngFor="let city of cities" [value]="city.code">{{city.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="guests-filter" appearance="outline">
+      <mat-label>Huespedes</mat-label>
+      <input matInput type="number" formControlName="numberGuests">
+      <mat-error *ngIf="isFieldInvalid('guests', 'min')">
+        {{ errorMessage.guests.min }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+

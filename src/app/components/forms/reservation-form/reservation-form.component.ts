@@ -1,16 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { BookingModel } from 'src/app/core/models/booking.model';
+import { IHotel } from 'src/app/core/models/hotel.interface';
+import { bookingCreated, isLoading, sendCreateBooking, stopLoading } from 'src/app/state/actions';
+import { Appstate } from 'src/app/state/app.reducers';
+import { selectEndCreateBooking, selectHotel, selectNumberGuestCreateBooking, selectStartCreateBooking } from 'src/app/state/selectors';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reservation-form',
   templateUrl: './reservation-form.component.html',
   styleUrls: ['./reservation-form.component.scss']
 })
-export class ReservationFormComponent implements OnInit {
+export class ReservationFormComponent implements OnInit, OnDestroy {
+
+  booking: any;
+  loadinSub: Subscription = new Subscription();
+  startSub: Subscription = new Subscription();
+  endSub: Subscription = new Subscription();
+  numberGuestsSub: Subscription = new Subscription();
+  loading: boolean = false;
 
   //TODO: recibir la capacidad de la habitacion y restringir la cantidad de pasajeros
-  roomCapacity:number = 4;
-  disableAddPassanger: boolean = false;
+  roomCapacity:number = 1;
+  disableAddGuest: boolean = false;
 
   maxDate = new Date();
   minDate = new Date();
@@ -74,13 +90,48 @@ export class ReservationFormComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private store: Store<Appstate>
   ) { }
 
   ngOnInit(): void {
+
+    let hotelSelect: IHotel | null = null;
+    let start: Date | null = null;
+    let end: Date | null = null;
+    let numberGuests: number | null = null;
+
+    this.store.select(selectHotel).subscribe({
+      next: (data) =>  data ? hotelSelect  = data: null
+    })
+    if (hotelSelect){
+      this.store.select(selectStartCreateBooking).subscribe({
+        next: (data) =>  data ? start  = data: null
+      })
+      this.store.select(selectEndCreateBooking).subscribe({
+        next: (data) =>  data ? end  = data: null
+      })
+      this.store.select(selectNumberGuestCreateBooking).subscribe({
+        next: (data) =>  data ? numberGuests  = data: null
+      })
+
+      this.booking = {
+        start,
+        end,
+      }
+
+    }
+
+    this.loadinSub = this.store.select('ui').subscribe({
+      next: (data) =>  this.loading  = data.isLoading
+    })
+
+    //Setear los valores minimos y maximos de las fechas
     this.maxDate.setDate(this.maxDate.getDate());
     this.minDate.setFullYear(this.minDate.getFullYear() - 100);
 
+    // se crea el grupo de formulario para los datos del contacto de emergencia
     const emergencyContact = this.formBuilder.group({
       name: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(30)])],
       phone: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
@@ -88,21 +139,29 @@ export class ReservationFormComponent implements OnInit {
 
     this.formReservation = this.formBuilder.group({
       emergencyContact,
-      passengers: this.formBuilder.array([]),
+      guests: this.formBuilder.array([]),
     })
 
-    this.addPasseger()
+    this.addGuest()
+  }
+
+
+  ngOnDestroy(): void {
+    this.loadinSub.unsubscribe();
+    this.endSub.unsubscribe();
+    this.startSub.unsubscribe();
+    this.numberGuestsSub.unsubscribe();
   }
 
   /**
    * Getter para obtener la lista de pasajeros
    */
-  get passengerForm(): FormArray {
-    return this.formReservation.get('passengers') as FormArray
+  get guestsForm(): FormArray {
+    return this.formReservation.get('guests') as FormArray
   }
 
-  addPasseger() {
-      this.disableAddPassanger = false;
+  addGuest() {
+      this.disableAddGuest = false;
       const passegerNew = this.formBuilder.group({
         name: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(30)])],
         email: ['', Validators.compose([Validators.required, Validators.email])],
@@ -112,11 +171,11 @@ export class ReservationFormComponent implements OnInit {
         documentType: ['', Validators.compose([Validators.required])],
         phone: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
       })
-      this.passengerForm.push(passegerNew)
+      this.guestsForm.push(passegerNew)
   }
 
-  removePasseger(i: number) {
-    this.passengerForm.removeAt(i)
+  removeGuest(i: number) {
+    this.guestsForm.removeAt(i)
   }
 
   /**
@@ -139,20 +198,53 @@ export class ReservationFormComponent implements OnInit {
   Método para obtener el total de pasajeros
   @returns Total de pasajeros
   */
-  getTotalPassengers(): number {
-    return this.passengerForm.length
+  getTotalGuests(): number {
+    return this.guestsForm.length
   }
 
 
   onSubmit() {
     if (this.formReservation.valid) {
-      // TODO: enviar datos al servicio
-      console.log('Formulario válido')
-      console.log(this.formReservation.value)
-      this.formReservation.reset();
+      this.store.dispatch(isLoading())
+      const { guests, emergencyContact} = this.formReservation.value;
+      const newBooking: BookingModel = {
+        guests,
+        responsible: guests[0],
+        emergencyContact,
+        start: new Date(),
+        end: new Date(),
+        roomId: '23132sd',
+      }
+
+
+      this.store.dispatch(sendCreateBooking({newBooking}))
+      this.store.select(bookingCreated).subscribe({
+        next: () => {
+          this.store.dispatch(stopLoading())
+            Swal.fire({
+              icon: 'success',
+              title: 'Reservado',
+              text: 'Reserva enviada con exito'
+            })
+            this.router.navigate(['home'])
+          },
+        error: (err) => {
+          this.store.dispatch(stopLoading())
+          Swal.fire({
+            icon: 'error',
+            title: 'Ooops..',
+            text: err.message
+          })
+        }
+
+        }).unsubscribe()
+
     } else {
-      console.log('Formulario inválido')
-      alert('Por favor, revise los campos del formulario')
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops..',
+        text: 'Por favor, revise los campos del formulario'
+      })
     }
   }
 

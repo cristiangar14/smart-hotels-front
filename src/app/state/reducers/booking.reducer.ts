@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { CreateBookingState } from 'src/app/core/models/booking.state';
-import {  } from '../actions';
+import { initCreateBooking } from '../actions';
 import { bookingCreated, errorCreateBooking, sendCreateBooking } from '../actions';
 
 
@@ -9,10 +9,21 @@ export const createBookingInitialState: CreateBookingState = {
   created:false,
   error: null,
   booking: null,
+  start: null,
+  end: null,
+  numberGuests: null
 }
 
 const _createBookingReducer = createReducer(
   createBookingInitialState,
+  on(initCreateBooking, (state, { start, end, numberGuests }) => ({
+    ...state,
+    loading: false,
+    created: false,
+    start,
+    end,
+    numberGuests
+  })),
   on(sendCreateBooking, (state, { newBooking }) => ({
     ...state,
     loading: true,

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PickerDateFormComponent } from './picker-date-form.component';
+import { PublicLayoutComponent } from './public-layout.component';
 
-describe('PickerDateFormComponent', () => {
-  let component: PickerDateFormComponent;
-  let fixture: ComponentFixture<PickerDateFormComponent>;
+describe('PublicLayoutComponent', () => {
+  let component: PublicLayoutComponent;
+  let fixture: ComponentFixture<PublicLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PickerDateFormComponent ]
+      declarations: [ PublicLayoutComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PickerDateFormComponent);
+    fixture = TestBed.createComponent(PublicLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,6 +2,7 @@
   <form
     [formGroup]="hotelDetailBooking"
     class="hotelDetailBookingForm"
+    (ngSubmit)="onSubmit()"
   >
 
     <mat-form-field appearance="fill">
@@ -21,7 +22,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Huespedes</mat-label>
-      <input matInput type="number" formControlName="guests">
+      <input matInput type="number" formControlName="numberGuests">
       <mat-error *ngIf="isFieldInvalid('guests', 'required')">
         {{ errorMessage.guests.required }}
       </mat-error>

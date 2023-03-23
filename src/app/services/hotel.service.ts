@@ -26,9 +26,10 @@ export class HotelService {
   }
 
   getHotelsFilter(filter:any): Observable<any>{
-
+      console.log('filter',filter)
       const refHotels = collection(this.firestore,'hotels');
-      return collectionSnapshots(refHotels).pipe(map(res => res.map(data => {
+      return collectionSnapshots(refHotels).pipe(
+        map(res => res.map(data => {
         const id = data.id
         const docData = data.data()
         return {...docData, id}
@@ -77,9 +78,7 @@ export class HotelService {
           }
         })
         .catch( error => observer.error(error))
-
     })
-
   }
 
   updateHotel(hotel:IHotel): Observable<any>{

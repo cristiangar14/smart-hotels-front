@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { IRoomType } from 'src/app/core/models/roomType.interface';
 import { ROOMTYPES } from 'src/app/mocks/typesRooms.mocks';
+import { initCreateBooking } from 'src/app/state/actions';
+import { Appstate } from 'src/app/state/app.reducers';
 
 @Component({
   selector: 'app-form-hotel-detail-booking',
@@ -28,7 +32,9 @@ export class FormHotelDetailBookingComponent {
   roomTypes: IRoomType[]= ROOMTYPES;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private store: Store<Appstate>
   ){}
 
   ngOnInit(): void {
@@ -36,7 +42,7 @@ export class FormHotelDetailBookingComponent {
     this.hotelDetailBooking = this.formBuilder.group({
       start: ['', Validators.required],
       end: ['', Validators.required],
-      guests: [1, Validators.compose([Validators.required, Validators.min(1)])],
+      numberGuests: [1, Validators.compose([Validators.required, Validators.min(1)])],
     })
 
 
@@ -69,7 +75,11 @@ export class FormHotelDetailBookingComponent {
   }
 
   onSubmit() {
-    console.log(this.hotelDetailBooking.value);
+    if (this.hotelDetailBooking.valid) {
+      this.store.dispatch(initCreateBooking({...this.hotelDetailBooking.value}))
+      this.router.navigate([`/reservation`])
+    }
+
   }
 
 

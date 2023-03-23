@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, exhaustMap, catchError, tap } from 'rxjs/operators';
+import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators';
 import { HotelService } from 'src/app/services/hotel.service';
-import { errorLoadedHotels, loadedHotels, loadHotels } from '../actions';
+import { errorLoadedHotels, loadedHotels, loadHotels, loadHotelsByFilter } from '../actions';
 
 @Injectable()
 export class HotelsEffects {
@@ -21,5 +21,15 @@ export class HotelsEffects {
        ))
      )
    );
+
+   loadHotelsByFilter$ = createEffect(() => this.actions$.pipe(
+    ofType(loadHotelsByFilter),
+    mergeMap((actions) => this.hotelService.getHotelsFilter(actions.payload)
+      .pipe(
+        map(hotels => loadedHotels({hotels})),
+        catchError(err => of(errorLoadedHotels({payload: err})))
+      ))
+    )
+  );
 
 }

@@ -7,6 +7,7 @@ export interface BookingState{
   loading: boolean,
   loaded: boolean,
   error: any,
+
 }
 
 export interface CreateBookingState{
@@ -14,4 +15,7 @@ export interface CreateBookingState{
   loading: boolean,
   created: boolean,
   error: any,
+  start: Date | null,
+  end: Date | null,
+  numberGuests: number | null
 }

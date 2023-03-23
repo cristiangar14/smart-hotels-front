@@ -253,7 +253,7 @@ export class HotelFormComponent  implements OnInit {
           const hotelId = id;
           this.store.dispatch(sendCreateRooms({newRooms, hotelId}))
         }
-      })
+      }).unsubscribe();
       this.formCreateHotel.reset();
     } else {
       return;

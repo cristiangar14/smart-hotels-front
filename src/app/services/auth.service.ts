@@ -1,22 +1,52 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, user, User } from '@angular/fire/auth';
 import { UserModel } from '../core/models/user.model';
-import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, doc, getDoc, onSnapshot, query, where } from '@angular/fire/firestore';
+import { Store } from '@ngrx/store';
+import { Appstate } from '../state/app.reducers';
+import { setUser, unSetUser } from '../state/actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  userSubscription: Subscription = new Subscription();
+  // userSubscription: any;
 
   constructor(
       private auth: Auth,
-      private firestore: Firestore
+      private firestore: Firestore,
+      private store: Store<Appstate>,
     ) { }
 
 
     initAuthListener(){
-      authState(this.auth).subscribe( fuser => { console.log(fuser)})
+      this.userSubscription =  authState(this.auth).subscribe( fuser => {
+
+        if (fuser) {
+          const refUsers = collection(this.firestore,'users');
+          const q = query(refUsers, where("uid", "==", fuser.uid));
+
+          onSnapshot(
+            q,
+            (docs) => {
+              let results: any = []
+              docs.forEach((doc) => {
+                results.push(doc.data());
+              });
+
+              const user = {...results[0]}
+              this.store.dispatch(setUser({user}))
+            },
+            (error) => {
+              console.log("error ", error);
+            }
+          )
+        } else {
+          this.store.dispatch(unSetUser())
+        }
+      })
     }
 
     login(email:string, password:string): Promise<any>{

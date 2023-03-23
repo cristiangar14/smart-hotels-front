@@ -54,8 +54,17 @@
         color="primary"
         [disabled]="loginForm.invalid"
         type="submit"
+        *ngIf="!loading"
       >
         Ingresar
+      </button>
+      <button
+        mat-raised-button
+        color="disabled"
+        [disabled]="true"
+        *ngIf="loading"
+      >
+        Cargando...
       </button>
     </form>
   </mat-card-content>

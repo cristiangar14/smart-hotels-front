@@ -1,21 +1,25 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { isLoading, stopLoading } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })
-export class LoginFormComponent implements OnInit{
+export class LoginFormComponent implements OnInit, OnDestroy{
 
-  @Output() loginAction:EventEmitter<{}> = new EventEmitter<{}>();
 
   hide:boolean = true;
   loginForm : FormGroup = new FormGroup({});
-
+  loadinSub: Subscription = new Subscription();
+  loading: boolean = false;
 
   errorMessage = {
     email: {
@@ -31,17 +35,26 @@ export class LoginFormComponent implements OnInit{
 
   constructor(
       private formBuilder: FormBuilder,
+      private authService: AuthService,
+      private router: Router,
       private store: Store<Appstate>
     ){}
 
+
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email:['algo@algo.com', Validators.compose([Validators.required, Validators.email])],
+      email:['prueba@prueba.com', Validators.compose([Validators.required, Validators.email])],
       password:['', Validators.required]
     })
 
+    this.loadinSub = this.store.select('ui').subscribe({
+      next: (data) =>  this.loading  = data.isLoading
+    })
 
+  }
 
+  ngOnDestroy(): void {
+    this.loadinSub.unsubscribe();
   }
 
    /**
@@ -61,9 +74,21 @@ export class LoginFormComponent implements OnInit{
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.loginAction.emit(this.loginForm.value)
-      console.table(this.loginForm.value)
-      this.loginForm.reset();
+      this.store.dispatch(isLoading())
+      let {email, password} = this.loginForm.value
+
+      this.authService.login(email,password).then( data => {
+            this.store.dispatch(stopLoading())
+            this.router.navigate(['./home'])
+          }
+        ).catch(err => {
+            this.store.dispatch(stopLoading())
+            Swal.fire({
+              icon: 'error',
+              title: 'Ooops..',
+              text: err.message
+            })
+        })
     } else {
       alert('Por favor, revise los campos del formulario')
     }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { loadHotels } from 'src/app/state/actions/hotels.actions';
+import { selectLoadind } from 'src/app/state/selectors/hotels.selectors';
 
 
 @Component({
@@ -9,15 +12,15 @@ import { Router } from '@angular/router';
 })
 export class HomePageComponent implements OnInit{
 
+
+
   constructor(
-      private router: Router
+      private store: Store<any>
     ){}
 
   ngOnInit(): void {
-  }
 
-  navigateToHotels(): void{
-    this.router.navigate(['hotels'])
+
   }
 
 }

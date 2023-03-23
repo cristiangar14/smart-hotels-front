@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IHotel } from 'src/app/models/hotel.interface';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { loadHotel } from 'src/app/state/actions';
+import { Appstate } from 'src/app/state/app.reducers';
+import { selectErrorHotel, selectHotel, selectLoadindHotel } from 'src/app/state/selectors/hotel.selector';
 
 @Component({
   selector: 'app-hotel-detail-page',
@@ -9,26 +13,33 @@ import { IHotel } from 'src/app/models/hotel.interface';
 })
 export class HotelDetailPageComponent implements OnInit{
 
-  id: string | undefined ;
-  hotel: IHotel | undefined;
+  hotel$: Observable<any> = new Observable();
+  errorData$: Observable<any> = new Observable();
+  loading$: Observable<boolean> = new Observable();
+  hotel: any;
 
   constructor(
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private store: Store<Appstate>
     ){}
+
 
   ngOnInit(): void {
     this.route.params.subscribe(
-        (params:any) => {
-          if (params.id) {
-              this.id = params.id;
-              console.log(this.id)
+        ({id}) => {
+          if (id) {
+              this.store.dispatch(loadHotel({id}))
           }
         }
     )
 
-    if (history.state.data) {
-      this.hotel = history.state.data
-    }
+    this.hotel$ = this.store.select(selectHotel)
+    this.errorData$ = this.store.select(selectErrorHotel)
+    this.loading$ = this.store.select<boolean>(selectLoadindHotel)
+
+    this.hotel$.subscribe({
+      next: (data) =>  data ?this.hotel  = data: null
+    })
 
 
   }

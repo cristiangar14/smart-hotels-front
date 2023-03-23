@@ -15,3 +15,7 @@ export const errorLoadedHotels = createAction(
   props<{ payload: any }>()
 );
 
+export const loadHotelsByFilter = createAction(
+  '[Hotel List Filter] load hotels filter',
+  props<{ payload: any }>()
+);

@@ -1,29 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { IHotel } from 'src/app/models/hotel.interface';
-import { HotelService } from 'src/app/services/hotel.service';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { IHotel } from 'src/app/core/models/hotel.interface';
+import { Appstate } from 'src/app/state/app.reducers';
+import { selectErrorHotels, selectListHotels, selectLoadind } from 'src/app/state/selectors/hotels.selectors';
 
 @Component({
   selector: 'app-hotels-page',
   templateUrl: './hotels-page.component.html',
   styleUrls: ['./hotels-page.component.scss']
 })
-export class HotelsPageComponent implements OnInit {
-  listHotels:IHotel[] = [];
+export class HotelsPageComponent implements OnInit, OnDestroy {
+
+  hotelsSub: Subscription = new Subscription();
+
+  errorData$: Observable<any> = new Observable();
+  loading$: Observable<boolean> = new Observable()
+  hotels: IHotel[] | null = null;
 
   constructor(
       private router: Router,
-      private hotelService: HotelService
+      private store: Store<Appstate>
     ){
 
   }
+  ngOnDestroy(): void {
+    this.hotelsSub.unsubscribe();
+  }
 
   ngOnInit(): void {
-    this.hotelService.getHotels()
-      .then((response) => this.listHotels = response)
-      .catch((error) => {
-        throw new Error(`[GET-HOTELS]: ${error}`);
-      })
+    this.hotelsSub =this.store.select(selectListHotels).subscribe({
+      next: (values) => {
+        this.hotels = [...values]
+      },
+    })
   }
 
   passDetail(hotel:IHotel){
@@ -33,7 +44,7 @@ export class HotelsPageComponent implements OnInit {
       },
     }
 
-    this.router.navigate([`/hotels/${hotel._id}`], navigationExtras)
+    this.router.navigate([`/hotels/${hotel.id}`], navigationExtras)
   }
 
 }

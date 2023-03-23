@@ -4,3 +4,4 @@ export * from './createHotel.actions';
 export * from './rooms.actions';
 export * from './booking.actions';
 export * from './ui.actions';
+export * from './auth.actions';

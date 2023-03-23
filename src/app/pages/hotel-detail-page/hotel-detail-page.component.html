@@ -1,4 +1,85 @@
-<p>hotel-detail-page works!</p>
-<p>Aca va un boton al formulario de reservas</p>
-<p>{{id}}</p>
-<p>{{hotel?.name}}</p>
+
+<mat-spinner *ngIf="(loading$ | async)"></mat-spinner>
+
+
+
+
+<mat-card *ngIf="hotel" class="hotelDetails">
+  <div class="hotelDetailsHeader">
+    <mat-card-title class="hotelDetailsHeader-name">{{hotel.name}}</mat-card-title>
+    <mat-card-subtitle>{{hotel.location.city}}</mat-card-subtitle>
+  </div>
+  <div class="hotelDetailsImages">
+    <div class="hotelDetailsImage1">
+      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
+    </div>
+    <div class="hotelDetailsImage2">
+      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
+    </div>
+    <div class="hotelDetailsImage3">
+      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
+    </div>
+    <div class="hotelDetailsImage4">
+      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
+    </div>
+    <div class="hotelDetailsImage5">
+      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
+    </div>
+  </div>
+  <div class="hotelDetailsBody">
+    <p class="hotelDetailsBody-p">{{hotel.coverText}}</p>
+    <p class="hotelDetailsBody-p">{{hotel.services}}</p>
+    <ul class="hotelDetailsBody-commonAreas-container">
+        <li *ngIf="hotel.commonAreas.bar" class="hotelDetailsBody-commonAreas-item">
+          <mat-icon>nightlife</mat-icon>
+          <p>Bar</p>
+        </li>
+        <li *ngIf="hotel.commonAreas.pool" class="hotelDetailsBody-commonAreas-item">
+          <mat-icon>pool</mat-icon>
+          <p>Piscina</p>
+        </li>
+        <li *ngIf="hotel.commonAreas.sauna" class="hotelDetailsBody-commonAreas-item">
+          <mat-icon>spa</mat-icon>
+          <p>Sauna</p>
+        </li>
+        <li *ngIf="hotel.commonAreas.parkingLote" class="hotelDetailsBody-commonAreas-item">
+          <mat-icon>hot_tub</mat-icon>
+          <p>Jacuzzi</p>
+        </li>
+        <li *ngIf="hotel.commonAreas.terrace" class="hotelDetailsBody-commonAreas-item">
+          <mat-icon>deck</mat-icon>
+          <p>Terraza</p>
+        </li>
+        <li *ngIf="hotel.commonAreas.campingArea" class="hotelDetailsBody-commonAreas-item">
+          <mat-icon>brightness_2</mat-icon>
+          <p>Zona de Camping</p>
+        </li>
+        <li *ngIf="hotel.commonAreas.restaurant" class="hotelDetailsBody-commonAreas-item">
+          <mat-icon>restaurant</mat-icon>
+          <p>Restaurante</p>
+        </li>
+        <li *ngIf="hotel.commonAreas.sauna" class="hotelDetailsBody-commonAreas-item">
+          <mat-icon>local_parking</mat-icon>
+          <p>Parqueadero</p>
+        </li>
+      </ul>
+  </div>
+  <div class="hotelDetailsFormBooking">
+
+    <app-form-hotel-detail-booking></app-form-hotel-detail-booking>
+  </div>
+</mat-card>
+
+
+<div class="container">
+  <div class="hotelDetailsHeader"></div>
+  <div class="hotelDetailsImages">
+    <div class="hotelDetailsImage1"></div>
+    <div class="hotelDetailsImage2"></div>
+    <div class="hotelDetailsImage3"></div>
+    <div class="hotelDetailsImage4"></div>
+    <div class="hotelDetailsImage5"></div>
+  </div>
+  <div class="hotelDetailsBody"></div>
+  <div class="hotelDetailsFormBooking"></div>
+</div>

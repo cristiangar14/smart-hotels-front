@@ -6,7 +6,7 @@ import { IRoom } from 'src/app/core/models/room.model';
 import { getRoomsByHotel } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
 import { selectErrorGetRoomsByHotel, selectLoadingGetRoomsByHotel } from 'src/app/state/selectors';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { EditRoomComponent } from '../forms/edit-room/edit-room.component';
 
 @Component({
@@ -36,9 +36,7 @@ export class RoomListComponent implements OnInit {
       this.store.select('getRoomsByHotel').subscribe(({rooms, loading, error}) => {
         this.rooms = rooms;
 
-      })
-      this.errorData$ = this.store.select(selectErrorGetRoomsByHotel)
-      this.loading$ = this.store.select<boolean>(selectLoadingGetRoomsByHotel)
+      }).unsubscribe()
     }
 
   }

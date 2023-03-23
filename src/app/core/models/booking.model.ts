@@ -1,13 +1,13 @@
-import { PassengersModel } from "./passenger.model";
+import { GuestsModel } from "./guest.model";
 
 export class BookingModel {
   constructor(
     public roomId: string,
-    public responsible: PassengersModel,
+    public responsible: GuestsModel,
     public start: Date,
     public end: Date,
     public emergencyContact: {},
-    public passengers: PassengersModel[],
+    public guests: GuestsModel[],
     public id?: string,
     ){}
 }

@@ -7,3 +7,4 @@ export * from './booking.reducer';
 export * from './updateHotel.reducer';
 export * from './getRoomsByHotel.reducer';
 export * from './updateRoom.reducer';
+export * from './auth.reducer';

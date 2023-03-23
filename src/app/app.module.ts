@@ -14,7 +14,6 @@ import { HotelDetailPageComponent } from './pages/hotel-detail-page/hotel-detail
 import { HotelsPageComponent } from './pages/hotels-page/hotels-page.component';
 import { ReservationFormComponent } from './components/forms/reservation-form/reservation-form.component';
 import { HotelFormComponent } from './components/forms/hotel-form/hotel-form.component';
-import { PickerDateFormComponent } from './components/forms/picker-date-form/picker-date-form.component';
 import { NavComponent } from './components/nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -41,6 +40,7 @@ import { EditHotelFormComponent } from './components/forms/edit-hotel-form/edit-
 import { RoomListComponent } from './components/room-list/room-list.component';
 import { EditRoomComponent } from './components/forms/edit-room/edit-room.component';
 import { FormHotelDetailBookingComponent } from './components/forms/form-hotel-detail-booking/form-hotel-detail-booking.component';
+import { FormFilterHomeComponent } from './components/forms/form-filter-home/form-filter-home.component';
 
 
 
@@ -53,7 +53,6 @@ import { FormHotelDetailBookingComponent } from './components/forms/form-hotel-d
     HotelsPageComponent,
     ReservationFormComponent,
     HotelFormComponent,
-    PickerDateFormComponent,
     NavComponent,
     DashboardComponent,
     ReservationListComponent,
@@ -65,6 +64,7 @@ import { FormHotelDetailBookingComponent } from './components/forms/form-hotel-d
     RoomListComponent,
     EditRoomComponent,
     FormHotelDetailBookingComponent,
+    FormFilterHomeComponent,
   ],
   imports: [
     AuthModule,

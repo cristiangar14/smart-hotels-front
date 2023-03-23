@@ -17,7 +17,7 @@ export class CreateBookingEffects {
      exhaustMap((action) => this.bookingServices.createBooking(action.newBooking )
        .pipe(
         tap(console.log),
-          map(hotel => bookingCreated()),
+          map(booking => bookingCreated()),
          catchError(err => of(errorCreateBooking({payload: err})))
        ))
      )

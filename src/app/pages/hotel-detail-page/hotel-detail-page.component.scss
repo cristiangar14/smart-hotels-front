@@ -1,0 +1,183 @@
+mat-spinner{
+  margin: 3em auto;
+}
+
+
+.hotelDetails{
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2em 1em;
+  gap: 20px;
+
+  .hotelDetailsImage2 { display: none; }
+
+  .hotelDetailsImage3 { display: none; }
+
+  .hotelDetailsImage4 { display: none; }
+
+  .hotelDetailsImage5 { display: none; }
+
+  .hotelDetailsHeader { }
+
+  .hotelDetailsImages {
+    display: flex;
+
+    .hotelDetailsImage1{
+      width: 100%;
+    }
+
+    img {
+      height: 250px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+  }
+
+  .hotelDetailsBody {
+    .hotelDetailsBody-p{
+      margin: 2em 0;
+      font-size: 1rem;
+    }
+    .hotelDetailsBody-commonAreas-container{
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      height: 100px;
+      padding: 0;
+
+
+      .hotelDetailsBody-commonAreas-item{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        max-width: 160px;
+
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .hotelDetailsFormBooking {  }
+
+}
+
+
+@media (min-width: 750px){
+  .hotelDetailsHeader-name{
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+  .hotelDetails{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: min-content min-content min-content;
+    gap: 10px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "hotelDetailsHeader hotelDetailsHeader hotelDetailsHeader"
+      "hotelDetailsImages hotelDetailsImages hotelDetailsImages"
+      "hotelDetailsBody hotelDetailsBody hotelDetailsFormBooking";
+
+
+    .hotelDetailsHeader { grid-area: hotelDetailsHeader; }
+
+    .hotelDetailsImages {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      grid-auto-flow: row;
+      grid-template-areas:
+        "hotelDetailsImage1 hotelDetailsImage1 hotelDetailsImage2 hotelDetailsImage3"
+        "hotelDetailsImage1 hotelDetailsImage1 hotelDetailsImage4 hotelDetailsImage5";
+      grid-area: hotelDetailsImages;
+      img {
+        height: 100%;
+      }
+
+
+      .hotelDetailsImage1 {
+        display: block;
+        grid-area: hotelDetailsImage1; }
+
+      .hotelDetailsImage2 {
+        display: block;
+        grid-area: hotelDetailsImage2; }
+
+      .hotelDetailsImage3 {
+        display: block;
+        grid-area: hotelDetailsImage3; }
+
+      .hotelDetailsImage4 {
+        display: block;
+        grid-area: hotelDetailsImage4; }
+
+      .hotelDetailsImage5 {
+        display: block;
+        grid-area: hotelDetailsImage5; }
+
+    }
+
+    .hotelDetailsBody {
+      .hotelDetailsBody-p{
+        max-width: 90%;
+        font-size: 1.2rem;
+      }
+
+
+      grid-area: hotelDetailsBody;
+    }
+
+    .hotelDetailsFormBooking { grid-area: hotelDetailsFormBooking; }
+
+  }
+
+
+}
+
+
+ .container {  display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-rows: min-content min-content min-content;
+   gap: 10px;
+   grid-auto-flow: row;
+   grid-template-areas:
+     "hotelDetailsHeader hotelDetailsHeader hotelDetailsHeader"
+     "hotelDetailsImages hotelDetailsImages hotelDetailsImages"
+     "hotelDetailsBody hotelDetailsBody hotelDetailsFormBooking";
+ }
+
+// .hotelDetailsHeader { grid-area: hotelDetailsHeader; }
+
+ .hotelDetailsImages {  display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1fr;
+   gap: 0px 0px;
+   grid-auto-flow: row;
+   grid-template-areas:
+     "hotelDetailsImage1 hotelDetailsImage1 hotelDetailsImage2 hotelDetailsImage3"
+     "hotelDetailsImage1 hotelDetailsImage1 hotelDetailsImage4 hotelDetailsImage5";
+   grid-area: hotelDetailsImages;
+ }
+
+// .hotelDetailsImage1 { grid-area: hotelDetailsImage1; }
+
+// .hotelDetailsImage2 { grid-area: hotelDetailsImage2; }
+
+// .hotelDetailsImage3 { grid-area: hotelDetailsImage3; }
+
+// .hotelDetailsImage4 { grid-area: hotelDetailsImage4; }
+
+// .hotelDetailsImage5 { grid-area: hotelDetailsImage5; }
+
+// .hotelDetailsBody { grid-area: hotelDetailsBody; }
+
+// .hotelDetailsFormBooking { grid-area: hotelDetailsFormBooking; }

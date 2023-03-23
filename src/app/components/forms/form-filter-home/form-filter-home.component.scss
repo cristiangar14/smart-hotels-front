@@ -1,0 +1,23 @@
+.hotelDetailBookingForm-container{
+  padding: 2em;
+
+  form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px 10px;
+    grid-template-areas:
+      "range-filter range-filter"
+      "city-filter guests-filter";
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .range-filter { grid-area: range-filter; }
+
+  .city-filter { grid-area: city-filter; }
+
+  .guest-filter { grid-area: guest-filter; }
+}
+
+

@@ -22,14 +22,14 @@ mat-card-header{
   align-items: center;
 }
 
-.form-group-booking, .passenger{
+.form-group-booking, .guest{
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 5%;
 }
 
-.btn-passenger, mat-card-subtitle{
+.btn-guest, mat-card-subtitle{
   margin-bottom: 2em;
 }
 

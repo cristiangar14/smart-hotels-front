@@ -1,4 +1,4 @@
-export class PassengersModel {
+export class GuestsModel {
   constructor(
     public name: string,
     public email: string,
@@ -6,7 +6,7 @@ export class PassengersModel {
     public gender: string,
     public documentType: string,
     public document: number,
-    public passengers: [],
+    public guests: [],
     public uid?: string,
     ){}
 }
