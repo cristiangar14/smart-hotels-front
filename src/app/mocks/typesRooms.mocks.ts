@@ -1,4 +1,4 @@
-import { IRoomType } from "../models/roomType.interface";
+import { IRoomType } from "../core/models/roomType.interface";
 
 export const ROOMTYPES:IRoomType[] = [
   {
