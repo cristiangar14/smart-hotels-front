@@ -1,0 +1,12 @@
+<mat-card class="hotel-card">
+  <mat-card-content>
+    <div class="container-rooms"></div>
+      <div (click)="openDialog(i)" class="puerta" *ngFor="let room of rooms; let i = index">
+          <div class="puerta-cabecera"></div>
+          <div class="puerta-cuerpo {{room.available ? 'available' : 'notAvailable'}}">
+            <div class="puerta-codigo">{{room.code}}</div>
+          </div>
+        <div class="puerta-mango"></div>
+      </div>
+  </mat-card-content>
+</mat-card>
