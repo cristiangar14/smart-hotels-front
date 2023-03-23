@@ -1,0 +1,40 @@
+<mat-card class="hotelDetailBookingForm-container">
+  <form
+    [formGroup]="hotelDetailBooking"
+    class="hotelDetailBookingForm"
+  >
+
+    <mat-form-field appearance="fill">
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Llegada">
+        <input matEndDate formControlName="end" placeholder="Salida">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+      <mat-error *ngIf="isFieldInvalid('start', 'required')">
+        {{ errorMessage.start.required}}
+      </mat-error>
+      <mat-error *ngIf="isFieldInvalid('end', 'required')">
+        {{ errorMessage.end.required}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Huespedes</mat-label>
+      <input matInput type="number" formControlName="guests">
+      <mat-error *ngIf="isFieldInvalid('guests', 'required')">
+        {{ errorMessage.guests.required }}
+      </mat-error>
+      <mat-error *ngIf="isFieldInvalid('guests', 'min')">
+        {{ errorMessage.guests.min }}
+      </mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="hotelDetailBooking.invalid"
+      >
+      Reservar</button>
+  </form>
+</mat-card>
