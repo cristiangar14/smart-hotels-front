@@ -228,8 +228,21 @@
                 <mat-label>Localización</mat-label>
                 <input matInput type="text" id="room-location-{{i}}" formControlName="location">
               </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Descripcion</mat-label>
+                <textarea maxlength="250" matInput  id="room-description-{{i}}" formControlName="description" class="form-control"></textarea>
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.description', 'required')">
+                  {{ errorMessage.description.required }}
+                </mat-error>
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.description', 'minlength')">
+                  {{ errorMessage.description.minlength }}
+                </mat-error>
+                <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.description', 'maxlength')">
+                  {{ errorMessage.description.maxlength }}
+                </mat-error>
+              </mat-form-field>
               <mat-checkbox formControlName="available" id="room-available-{{i}}">
-                Disponible
+                Activa
               </mat-checkbox>
                 <button
                   mat-mini-fab
@@ -258,9 +271,9 @@
       mat-raised-button
       color="primary"
       type="submit"
+      [disabled]="formCreateHotel.invalid"
       >
       Guardar</button>
-      <!-- [disabled]="formCreateHotel.invalid" -->
     </form>
   </mat-card-content>
 <mat-card>

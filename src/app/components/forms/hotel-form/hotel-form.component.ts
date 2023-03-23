@@ -3,13 +3,11 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CITIES } from 'src/app/mocks/cities.mocks';
 import { ROOMTYPES } from 'src/app/mocks/typesRooms.mocks';
 import { IRoomType } from 'src/app/core/models/roomType.interface';
-import { HotelService } from 'src/app/services/hotel.service';
 import { Store } from '@ngrx/store';
 import { Appstate } from 'src/app/state/app.reducers';
 import { sendCreateHotel } from 'src/app/state/actions/createHotel.actions';
 import { IHotel } from 'src/app/core/models/hotel.interface';
 import { sendCreateRooms } from 'src/app/state/actions';
-import { IRoom } from 'src/app/core/models/room.model';
 
 @Component({
   selector: 'app-hotel-form',
@@ -17,6 +15,7 @@ import { IRoom } from 'src/app/core/models/room.model';
   styleUrls: ['./hotel-form.component.scss']
 })
 export class HotelFormComponent  implements OnInit {
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,30 +40,30 @@ export class HotelFormComponent  implements OnInit {
     },
     phone: {
       required: 'El número de teléfono es requerido.',
-      minlength: 'El número de teléfono debe tener minimo 5 dígitos.',
-      maxlength: 'El número de teléfono debe tener maximo 15 dígitos.'
+      minlength: 'El número de teléfono debe tener minimo 5 caracteres.',
+      maxlength: 'El número de teléfono debe tener maximo 15 caracteres.'
     },
     address: {
       required: 'La dirección es requerida.',
-      minlength: 'La dirección debe tener minimo 3 dígitos.',
-      maxlength: 'La dirección debe tener maximo 30 dígitos.'
+      minlength: 'La dirección debe tener minimo 3 caracteres.',
+      maxlength: 'La dirección debe tener maximo 30 caracteres.'
     },
     city: {
       required: 'La ciudad es requerida.',
     },
     coverText: {
       required: 'Este campo es requerido',
-      minlength: 'El texto debe tener minimo 10 dígitos.',
-      maxlength: 'El texto debe tener maximo 250 dígitos.'
+      minlength: 'El texto debe tener minimo 10 caracteres.',
+      maxlength: 'El texto debe tener maximo 1000 caracteres.'
     },
     services: {
       required: 'Este campo es requerido',
-      minlength: 'El texto debe tener minimo 10 dígitos.',
-      maxlength: 'El texto debe tener maximo 250 dígitos.'
+      minlength: 'El texto debe tener minimo 10 caracteres.',
+      maxlength: 'El texto debe tener maximo 1000 caracteres.'
     },
     url: {
       required: 'Este campo es requerido',
-      minlength: 'La Url debe tener minimo 10 dígitos.',
+      minlength: 'La Url debe tener minimo 10 caracteres.',
     },
     capacity: {
       required: 'Este campo es requerido',
@@ -87,6 +86,11 @@ export class HotelFormComponent  implements OnInit {
     },
     location: {
       required: 'Este campo es requerido'
+    },
+    description: {
+      required: 'Este campo es requerido',
+      minlength: 'El texto debe tener minimo 10 caracteres.',
+      maxlength: 'El texto debe tener maximo 250 caracteres.'
     }
   }
 
@@ -122,8 +126,8 @@ export class HotelFormComponent  implements OnInit {
     this.formCreateHotel = this.formBuilder.group({
       active: true,
       name:['',Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(20)])],
-      coverText:['',Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(250)])],
-      services:['',Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(250)])],
+      coverText:['',Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(1000)])],
+      services:['',Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(1000)])],
       location,
       contact,
       commonAreas,
@@ -149,6 +153,7 @@ export class HotelFormComponent  implements OnInit {
         type: ['', Validators.required],
         basisCost: [ 0, Validators.compose([Validators.required, Validators.min(0)])],
         tax: [0, Validators.compose([Validators.required, Validators.min(0)])],
+        description:['',Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(250)])],
         code: ['', Validators.compose([Validators.required, Validators.maxLength(5)])],
         location: ['', Validators.required],
       })
@@ -214,8 +219,6 @@ export class HotelFormComponent  implements OnInit {
   }
 
 
-
-
   onSubmit() {
     if (this.formCreateHotel.valid) {
 
@@ -227,6 +230,7 @@ export class HotelFormComponent  implements OnInit {
         active,
         commonAreas,
         location,
+        contact,
         images,
       } = this.formCreateHotel.value;
 
@@ -236,6 +240,7 @@ export class HotelFormComponent  implements OnInit {
         active,
         commonAreas,
         location,
+        contact,
         images,
         services,
         numberRooms: this.roomsForm.length
