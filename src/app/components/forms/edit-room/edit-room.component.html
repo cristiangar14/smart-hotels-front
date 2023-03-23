@@ -1,0 +1,108 @@
+<mat-card>
+  <mat-card-content class="formUpdaterooms">
+    <div class="formUpdaterooms-edit">
+      <button
+        mat-mini-fab
+        color="warn"
+        type="button"
+        *ngIf="!enableEdit"
+        (click)="toogleEdit()"
+        >
+        <mat-icon>brush</mat-icon>
+      </button>
+    </div>
+    <form [formGroup]="formEditRoomHotel" (ngSubmit)="onSubmit()">
+
+      <div class="formUpdaterooms-form">
+        <mat-form-field appearance="fill">
+          <mat-label>Codigo</mat-label>
+          <input matInput type="text" formControlName="code">
+          <mat-error *ngIf="isFieldInvalid('code', 'required')">
+            {{ errorMessage.code.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('code', 'maxlength')">
+            {{ errorMessage.code.maxlength }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Capacidad</mat-label>
+          <input matInput type="number"  formControlName="capacity">
+          <mat-error *ngIf="isFieldInvalid('capacity', 'required')">
+            {{ errorMessage.capacity.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('capacity', 'min')">
+            {{ errorMessage.capacity.min }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let type of roomTypes" [value]="type.code">{{type.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="isFieldInvalid('type', 'required')">
+            {{ errorMessage.type.required }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Costo Basico</mat-label>
+          <input matInput type="text"  formControlName="basisCost">
+          <mat-error *ngIf="isFieldInvalid('basisCost', 'required')">
+            {{ errorMessage.basisCost.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('basisCost', 'min')">
+            {{ errorMessage.basisCost.min }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>% impuesto</mat-label>
+          <input matInput type="text" id="tax" formControlName="tax">
+          <mat-error *ngIf="isFieldInvalid('tax', 'required')">
+            {{ errorMessage.tax.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('tax', 'min')">
+            {{ errorMessage.tax.min }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Localización</mat-label>
+          <input matInput type="text"  formControlName="location">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Descripcion</mat-label>
+          <textarea maxlength="250" matInput formControlName="description" class="form-control"></textarea>
+          <mat-error *ngIf="isFieldInvalid('description', 'required')">
+            {{ errorMessage.description.required }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('description', 'minlength')">
+            {{ errorMessage.description.minlength }}
+          </mat-error>
+          <mat-error *ngIf="isFieldInvalid('description', 'maxlength')">
+            {{ errorMessage.description.maxlength }}
+          </mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="available">
+          Activa
+        </mat-checkbox>
+      </div>
+      <div class="formUpdaterooms-btns">
+        <button
+          *ngIf="enableEdit"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="formEditRoomHotel.invalid"
+          >
+          Guardar</button>
+          <button
+          mat-stroked-button
+          *ngIf="enableEdit"
+          color="warn"
+          type="button"
+          (click)="toogleEdit()"
+          >
+          Cancelar</button>
+      </div>
+
+    </form>
+  </mat-card-content>
+<mat-card>
