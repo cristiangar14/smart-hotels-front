@@ -3,7 +3,7 @@
     <mat-card-title>{{data.name}}</mat-card-title>
     <mat-card-subtitle>{{data.location.city}}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src={{data.images[0].url}} alt="Photo of a Shiba Inu">
+  <img class="card-image-hotel" mat-card-image src={{data.images[0].url}} alt={{data.name}}>
   <mat-card-content>
     <p>{{data.coverText}}</p>
   </mat-card-content>
