@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-import { IHotel } from 'src/app/core/models/hotel.interface';
 import { HotelState } from 'src/app/core/models/hotel.state';
 import { loadedHotel, loadHotel, errorLoadedHotel } from '../actions';
 
@@ -37,7 +36,6 @@ const _hotelReducer = createReducer(
     }
 
   }))
-
 );
 
 export function hotelReducer(state:any, action:any) {
