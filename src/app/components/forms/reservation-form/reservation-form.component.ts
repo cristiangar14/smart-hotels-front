@@ -23,6 +23,7 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   endSub: Subscription = new Subscription();
   numberGuestsSub: Subscription = new Subscription();
   loading: boolean = false;
+  hotelSelect: IHotel | null = null;
 
   //TODO: recibir la capacidad de la habitacion y restringir la cantidad de pasajeros
   roomCapacity:number = 1;
@@ -97,15 +98,18 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    let hotelSelect: IHotel | null = null;
+
     let start: Date | null = null;
     let end: Date | null = null;
     let numberGuests: number | null = null;
 
-    this.store.select(selectHotel).subscribe({
-      next: (data) =>  data ? hotelSelect  = data: null
+    this.store.select('createBooking').subscribe({
+      next: (data) =>  this.loading = data.loading
     })
-    if (hotelSelect){
+    this.store.select(selectHotel).subscribe({
+      next: (data) =>  data ? this.hotelSelect  = data: null
+    })
+    if (this.hotelSelect){
       this.store.select(selectStartCreateBooking).subscribe({
         next: (data) =>  data ? start  = data: null
       })
@@ -205,7 +209,6 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.formReservation.valid) {
-      this.store.dispatch(isLoading())
       const { guests, emergencyContact} = this.formReservation.value;
       const newBooking: BookingModel = {
         guests,
@@ -214,28 +217,23 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
         start: new Date(),
         end: new Date(),
         roomId: '23132sd',
+        hotelId: this.hotelSelect?.id,
       }
 
 
       this.store.dispatch(sendCreateBooking({newBooking}))
       this.store.select(bookingCreated).subscribe({
         next: () => {
-          this.store.dispatch(stopLoading())
-            Swal.fire({
-              icon: 'success',
-              title: 'Reservado',
-              text: 'Reserva enviada con exito'
-            })
-            this.router.navigate(['home'])
+            this.router.navigate(['./home'])
           },
         error: (err) => {
-          this.store.dispatch(stopLoading())
           Swal.fire({
             icon: 'error',
             title: 'Ooops..',
             text: err.message
           })
-        }
+        },
+        complete: () => { this.store.dispatch(stopLoading())}
 
         }).unsubscribe()
 
