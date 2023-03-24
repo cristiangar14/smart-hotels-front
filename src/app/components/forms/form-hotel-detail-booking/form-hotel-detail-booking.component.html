@@ -5,7 +5,7 @@
     (ngSubmit)="onSubmit()"
   >
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-date-range-input [rangePicker]="picker">
         <input matStartDate formControlName="start" placeholder="Llegada">
         <input matEndDate formControlName="end" placeholder="Salida">
@@ -20,7 +20,7 @@
         {{ errorMessage.end.required}}
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>Huespedes</mat-label>
       <input matInput type="number" formControlName="numberGuests">
       <mat-error *ngIf="isFieldInvalid('guests', 'required')">

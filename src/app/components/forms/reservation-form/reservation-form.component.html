@@ -13,7 +13,7 @@
               {{ i === 0 ? 'Responsable': 'Acompañante ' + i}}
             </mat-card-subtitle>
             <div class="form-group-booking" class="guest" [formGroupName]="i">
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Nombre</mat-label>
                 <input matInput type="text" id="guest-name-{{i}}" formControlName="name" required>
                 <mat-error *ngIf="isFieldInvalid('guests.' + i + '.name', 'required')">
@@ -27,7 +27,7 @@
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Fecha de Nacimiento</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="dateOfBirth"  [max]="maxDate" [min]="minDate">
                 <mat-hint>MM/DD/YYYY</mat-hint>
@@ -38,7 +38,7 @@
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" >
+              <mat-form-field appearance="outline" >
                 <mat-label >Correo Electronico</mat-label>
                 <input matInput type="text" id="guest-email-{{i}}" formControlName="email" required>
                 <mat-error *ngIf="isFieldInvalid('guests.' + i + '.email', 'required')">
@@ -48,7 +48,7 @@
                   {{ errorMessage.email.email }}
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label >Celular</mat-label>
                 <input matInput type="tel" id="guest-phone-{{i}}" formControlName="phone" required>
                 <mat-error *ngIf="isFieldInvalid('guests.' + i + '.phone', 'required')">
@@ -61,7 +61,7 @@
                   {{ errorMessage.phone.maxlength }}
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Tipo de documento</mat-label>
                 <mat-select id="guest-documentType-{{i}}" formControlName="documentType">
                   <mat-option *ngFor="let type of documentTypes" [value]="type.value">{{type.title}}</mat-option>
@@ -70,7 +70,7 @@
                   {{ errorMessage.documentType.required }}
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label >Documento</mat-label>
                 <input matInput type="number" id="guest-document-{{i}}" formControlName="document" required>
                 <mat-error *ngIf="isFieldInvalid('guests.' + i + '.document', 'required')">
@@ -84,7 +84,7 @@
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Género</mat-label>
                 <mat-select formControlName="gender">
                   <mat-option *ngFor="let gender of genders" [value]="gender.value">{{gender.title}}</mat-option>
@@ -111,7 +111,7 @@
         En caso de emergencia
       </mat-card-subtitle>
       <div class="form-group-booking" formGroupName="emergencyContact">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label for="emergencyContactName">Nombre del contacto</mat-label>
           <input matInput formControlName="name" type="text" class="form-control" />
           <mat-error *ngIf="isFieldInvalid('emergencyContact.name', 'required')">
