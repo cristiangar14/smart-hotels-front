@@ -29,7 +29,7 @@
 
               <mat-form-field appearance="outline">
                 <mat-label>Fecha de Nacimiento</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth"  [max]="maxDate" [min]="minDate">
+                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>

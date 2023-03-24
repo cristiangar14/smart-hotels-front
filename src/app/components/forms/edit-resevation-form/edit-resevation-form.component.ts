@@ -208,11 +208,14 @@ export class EditResevationFormComponent {
 
   onSubmit() {
     if (this.formReservation.valid) {
+      const startTimestamp = new Date().getTime();
+      const endTimestamp = new Date().getTime();
       const { guests, emergencyContact} = this.formReservation.value;
       const newBooking: BookingModel = {
         guests,
         responsible: guests[0],
         emergencyContact,
+        rangeTimestamp: `${startTimestamp}-${endTimestamp}`,
         start: new Date(),
         end: new Date(),
         roomId: '23132sd',

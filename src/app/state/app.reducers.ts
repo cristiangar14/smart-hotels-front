@@ -2,7 +2,7 @@ import { ActionReducerMap } from "@ngrx/store";
 import { BookingsState, BookingState, CreateBookingState } from "../core/models/booking.state";
 import { CreateHotelState, HotelState, UpdateHotelState } from "../core/models/hotel.state";
 import { HotelsState } from "../core/models/hotels.state";
-import { CreateRoomState, GetRoomsByHotelState, UpdateRoomState } from "../core/models/room.state";
+import { CreateRoomState, GetAvalableRoomsByHotelState, GetRoomsByHotelState, UpdateRoomState } from "../core/models/room.state";
 import { UserState } from "../core/models/user.state";
 import * as reducers from './reducers'
 import { UIState } from "./reducers/ui.reducer";
@@ -18,6 +18,7 @@ export interface Appstate {
   createBooking: CreateBookingState;
   updateHotel: UpdateHotelState;
   getRoomsByHotel: GetRoomsByHotelState;
+  avalableRoomsByHotel: GetAvalableRoomsByHotelState;
   updateRoom: UpdateRoomState;
   auth: UserState;
   bookingList: BookingsState;
@@ -38,5 +39,5 @@ export const appReducers: ActionReducerMap<Appstate> = {
   ui: reducers.uiReducer,
   auth: reducers.authReducer,
   bookingList: reducers.bookingsReducer,
-
+  avalableRoomsByHotel: reducers.getAvailableRoomsByHotelReducer
 }

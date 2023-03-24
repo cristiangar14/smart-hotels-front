@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { map, exhaustMap, catchError, tap } from 'rxjs/operators';
 import { RoomService } from 'src/app/services/room.service';
-import { errorCreateRooms, errorUpdateRoom, roomsCreated, sendCreateRooms, updatedRoom, updateRoom } from '../actions';
+import { errorCreateRooms, errorLoadedAvailableRoom, errorUpdateRoom, loadAvailableRooms, loadedByAvailableRooms, roomsCreated, sendCreateRooms, updatedRoom, updateRoom } from '../actions';
 
 @Injectable()
 export class CreateRoomsEffects {
@@ -29,6 +29,16 @@ export class CreateRoomsEffects {
         .pipe(
           map(message => updatedRoom({message})),
           catchError(err => of(errorUpdateRoom({payload: err})))
+        ))
+      )
+    )
+
+    AvailableRooms$ = createEffect(() => this.actions$.pipe(
+      ofType(loadAvailableRooms),
+      exhaustMap((action) => this.roomService.getAvailableRoomsByHotel(action.hotelId, action.start, action.end, action.numberGuests)
+        .pipe(
+          map(rooms => loadedByAvailableRooms({rooms})),
+          catchError(err => of(errorLoadedAvailableRoom({payload: err})))
         ))
       )
     )

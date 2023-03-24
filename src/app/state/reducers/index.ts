@@ -10,3 +10,4 @@ export * from './updateRoom.reducer';
 export * from './auth.reducer';
 export * from './bookings.reducer';
 export * from './hotelsFilter.reducer';
+export * from './getRoomsAvalaibleByHotel.reducer';

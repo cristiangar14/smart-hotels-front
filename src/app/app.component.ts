@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from './services/auth.service';
+import { HotelService } from './services/hotel.service';
 import { loadHotels, loadHotelsByFilter } from './state/actions';
 
 @Component({
@@ -13,16 +14,19 @@ export class AppComponent {
 
   constructor(
       private authService: AuthService,
+      private hotelService: HotelService,
       private store: Store<any>
   ){
     const payload = {
       start: new Date(),
-      end: new Date().getFullYear() + 1,
+      end: new Date(),
       numberGuests: 1,
       filterActive: true,
     }
 
     this.authService.initAuthListener();
+    //this.hotelService.getHotelsFilter(payload).subscribe(console.log)
+    //
     this.store.dispatch(loadHotelsByFilter({payload}))
   }
 

@@ -6,6 +6,7 @@ export class BookingModel {
     public start: Date,
     public end: Date,
     public emergencyContact: {},
+    public rangeTimestamp: any,
     public guests: GuestsModel[],
     public id?: string,
     public roomId?: string,

@@ -31,3 +31,14 @@ export interface UpdateRoomState{
   message: string,
   error: any,
 }
+
+export interface GetAvalableRoomsByHotelState{
+  rooms: IRoom[] | [],
+  loading: boolean,
+  obtained: boolean,
+  error: any,
+  hotelId: string,
+  start: Date,
+  end: Date,
+  numberGuests: number
+}

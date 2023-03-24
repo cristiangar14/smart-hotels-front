@@ -24,13 +24,16 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   numberGuestsSub: Subscription = new Subscription();
   loading: boolean = false;
   hotelSelect: IHotel | null = null;
+  end:any
+  start:any
+  numberGuests: any
+  created: boolean = false
 
-  //TODO: recibir la capacidad de la habitacion y restringir la cantidad de pasajeros
+  //TODO:  la capacidad de la habitacion y restringir la cantidad de pasajeros
   roomCapacity:number = 1;
   disableAddGuest: boolean = false;
 
-  maxDate = new Date();
-  minDate = new Date();
+
 
   documentTypes:{title:string, value:string}[]= [
     {
@@ -104,7 +107,13 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     let numberGuests: number | null = null;
 
     this.store.select('createBooking').subscribe({
-      next: (data) =>  this.loading = data.loading
+      next: ({loading, start, end, numberGuests, created}) =>  {
+        this.loading = loading
+        this.start = start,
+        this.end = end,
+        this.numberGuests = numberGuests,
+        this.created = created
+      }
     })
     this.store.select(selectHotel).subscribe({
       next: (data) =>  data ? this.hotelSelect  = data: null
@@ -131,9 +140,6 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
       next: (data) =>  this.loading  = data.isLoading
     })
 
-    //Setear los valores minimos y maximos de las fechas
-    this.maxDate.setDate(this.maxDate.getDate());
-    this.minDate.setFullYear(this.minDate.getFullYear() - 100);
 
     // se crea el grupo de formulario para los datos del contacto de emergencia
     const emergencyContact = this.formBuilder.group({
@@ -209,16 +215,20 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.formReservation.valid) {
+      const startTimestamp = new Date(this.start).getTime();
+      const endTimestamp = new Date(this.end).getTime();
+
       const { guests, emergencyContact} = this.formReservation.value;
       const newBooking: BookingModel = {
         guests,
         responsible: guests[0],
         emergencyContact,
-        start: new Date(),
-        end: new Date(),
+        start: new Date(this.start),
+        end: new Date(this.end),
+        rangeTimestamp: `${startTimestamp}-${endTimestamp}`,
         roomId: '23132sd',
         hotelId: this.hotelSelect?.id,
-      }
+      };
 
 
       this.store.dispatch(sendCreateBooking({newBooking}))

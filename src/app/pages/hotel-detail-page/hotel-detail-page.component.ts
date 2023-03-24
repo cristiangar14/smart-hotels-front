@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { loadHotel } from 'src/app/state/actions';
+import { Observable, Subscription } from 'rxjs';
+import { loadAvailableRooms, loadHotel } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
 import { selectErrorHotel, selectHotel, selectLoadindHotel } from 'src/app/state/selectors/hotel.selector';
 
@@ -11,18 +11,19 @@ import { selectErrorHotel, selectHotel, selectLoadindHotel } from 'src/app/state
   templateUrl: './hotel-detail-page.component.html',
   styleUrls: ['./hotel-detail-page.component.scss']
 })
-export class HotelDetailPageComponent implements OnInit{
+export class HotelDetailPageComponent implements OnInit, OnDestroy{
 
-  hotel$: Observable<any> = new Observable();
-  errorData$: Observable<any> = new Observable();
-  loading$: Observable<boolean> = new Observable();
+  hotelsub$: Subscription = new Subscription();
+  filterInitsub$: Subscription = new Subscription();
+  errorData: any;
+  loading: boolean =  false;
   hotel: any;
+  hotelId: any;
 
   constructor(
       private route: ActivatedRoute,
       private store: Store<Appstate>
     ){}
-
 
   ngOnInit(): void {
     this.route.params.subscribe(
@@ -33,15 +34,24 @@ export class HotelDetailPageComponent implements OnInit{
         }
     )
 
-    this.hotel$ = this.store.select(selectHotel)
-    this.errorData$ = this.store.select(selectErrorHotel)
-    this.loading$ = this.store.select<boolean>(selectLoadindHotel)
 
-    this.hotel$.subscribe({
-      next: (data) =>  data ?this.hotel  = data: null
+
+    this.hotelsub$ = this.store.select('hotel').subscribe({
+      next: ({hotel, loading, id, error}) => {
+        this.hotel = hotel;
+        this.hotelId = id;
+        this.errorData = error;
+        this.loading = loading;
+
+        this.store.dispatch(loadAvailableRooms(id, ))
+      }
     })
 
 
+  }
+
+  ngOnDestroy(): void {
+    this.hotelsub$.unsubscribe();
   }
 
 }
