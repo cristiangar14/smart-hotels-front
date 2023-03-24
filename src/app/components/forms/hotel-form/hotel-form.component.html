@@ -3,14 +3,27 @@
     <mat-card-title>
       Crear hotel
     </mat-card-title>
+    <div class="">
+
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="ngOnInit()"
+        *ngIf="created && !loading"
+        aria-label="Agregar otro hotel"
+        >
+        <mat-icon>add_circle_outline</mat-icon>
+        Crear otro hotel
+      </button>
+    </div>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content *ngIf="!created && !loading">
     <form [formGroup]="formCreateHotel" (ngSubmit)="onSubmit()">
       <mat-checkbox formControlName="active">
         Activo
       </mat-checkbox>
       <div class="formCreateHotel_basic">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label for="name">Nombre</mat-label>
           <input matInput formControlName="name" type="text" class="form-control" />
           <mat-error *ngIf="isFieldInvalid('name', 'required')">
@@ -23,7 +36,7 @@
             {{ errorMessage.name.maxlength }}
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Texto de portada</mat-label>
           <textarea maxlength="250" matInput formControlName="coverText" class="form-control"></textarea>
           <mat-error *ngIf="isFieldInvalid('coverText', 'required')">
@@ -36,7 +49,7 @@
             {{ errorMessage.coverText.maxlength }}
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Servicios ofrecidos</mat-label>
           <textarea maxlength="250" matInput formControlName="services" class="form-control"></textarea>
           <mat-error *ngIf="isFieldInvalid('services', 'required')">
@@ -58,7 +71,7 @@
         <div formArrayName="images">
           <div  *ngFor="let image of imagesForm.controls; let i=index">
             <div [formGroupName]="i" class="image">
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Url</mat-label>
                 <input matInput type="text" id="image-url-{{i}}" formControlName="url">
                 <mat-error *ngIf="isFieldInvalid('images.' + i + '.url', 'required')">
@@ -70,8 +83,9 @@
               </mat-form-field>
                 <button
                   mat-mini-fab
-                  color="primary"
                   type="button"
+                  color="warn"
+                  *ngIf="i > 4"
                   (click)="removeImage(i)"
                   aria-label="Example icon button with a delete icon">
                   <mat-icon>delete</mat-icon>
@@ -98,6 +112,9 @@
           <mat-checkbox formControlName="pool">
             Piscina
           </mat-checkbox>
+          <mat-checkbox formControlName="terrace">
+            Terraza
+          </mat-checkbox>
           <mat-checkbox formControlName="parkingLot">
             Parqueadero
           </mat-checkbox>
@@ -119,7 +136,7 @@
         </div>
        </div>
       <div class="formCreateHotel_contact" formGroupName="contact">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label for="">Email</mat-label>
           <input matInput formControlName="email" type="email" class="form-control" />
           <mat-error *ngIf="isFieldInvalid('contact.email', 'required')">
@@ -129,7 +146,7 @@
             {{ errorMessage.email.email }}
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label for="">Telefono</mat-label>
           <input matInput formControlName="phone" type="tel" class="form-control" />
           <mat-error *ngIf="isFieldInvalid('contact.phone', 'required')">
@@ -144,7 +161,7 @@
         </mat-form-field>
       </div>
       <div class="formCreateHotel_location" formGroupName="location">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label for="">Dirección</mat-label>
           <input matInput formControlName="address" type="text" class="form-control" />
           <mat-error *ngIf="isFieldInvalid('location.address', 'required')">
@@ -157,7 +174,7 @@
             {{ errorMessage.address.maxlength }}
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Ciudad</mat-label>
           <mat-select formControlName="city">
             <mat-option *ngFor="let city of cities" [value]="city.code">{{city.name}}</mat-option>
@@ -175,7 +192,7 @@
           <div  *ngFor="let room of roomsForm.controls; let i=index">
             <div class="formCreateHotel_rooms-item" [formGroupName]="i">
 
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Codigo</mat-label>
                 <input matInput type="text" id="room-code-{{i}}" formControlName="code">
                 <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.code', 'required')">
@@ -185,7 +202,7 @@
                   {{ errorMessage.code.maxlength }}
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Capacidad</mat-label>
                 <input matInput type="number" id="room-capacity-{{i}}" formControlName="capacity">
                 <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.capacity', 'required')">
@@ -195,7 +212,7 @@
                   {{ errorMessage.capacity.min }}
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Tipo</mat-label>
                 <mat-select formControlName="type">
                   <mat-option *ngFor="let type of roomTypes" [value]="type.code">{{type.name}}</mat-option>
@@ -204,7 +221,7 @@
                   {{ errorMessage.type.required }}
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Costo Basico</mat-label>
                 <input matInput type="text" id="room-basisCost-{{i}}" formControlName="basisCost">
                 <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.basisCost', 'required')">
@@ -214,7 +231,7 @@
                   {{ errorMessage.basisCost.min }}
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>% impuesto</mat-label>
                 <input matInput type="text" id="room-tax-{{i}}" formControlName="tax">
                 <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.tax', 'required')">
@@ -224,11 +241,11 @@
                   {{ errorMessage.tax.min }}
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Localización</mat-label>
                 <input matInput type="text" id="room-location-{{i}}" formControlName="location">
               </mat-form-field>
-              <mat-form-field appearance="fill">
+              <mat-form-field appearance="outline">
                 <mat-label>Descripcion</mat-label>
                 <textarea maxlength="250" matInput  id="room-description-{{i}}" formControlName="description" class="form-control"></textarea>
                 <mat-error *ngIf="isFieldInvalid('rooms.' + i + '.description', 'required')">
@@ -246,8 +263,9 @@
               </mat-checkbox>
                 <button
                   mat-mini-fab
-                  color="primary"
                   type="button"
+                  color="warn"
+                  *ngIf="i > 0"
                   (click)="removeRoom(i)"
                   aria-label="Example icon button with a delete icon">
                   <mat-icon>delete</mat-icon>
@@ -268,12 +286,21 @@
       </div>
 
       <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="formCreateHotel.invalid"
-      >
-      Guardar</button>
+        mat-raised-button
+        *ngIf="!loading && !created"
+        color="primary"
+        type="submit"
+        [disabled]="formCreateHotel.invalid"
+        >
+        Guardar</button>
+      <button
+        mat-raised-button
+        color="disabled"
+        *ngIf="loading"
+        [disabled]="true"
+        >
+        Guardando...
+      </button>
     </form>
   </mat-card-content>
 <mat-card>
