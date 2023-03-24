@@ -17,7 +17,6 @@ import { HotelFormComponent } from './components/forms/hotel-form/hotel-form.com
 import { NavComponent } from './components/nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ReservationListComponent } from './components/reservation-list/reservation-list.component';
 import { CardComponent } from './components/card/card.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -35,12 +34,13 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { PrivateLayoutComponent } from './layouts/private-layout/private-layout.component';
-import { ListHotelsComponent } from './pages/list-hotels/list-hotels.component';
+import { ListHotelsComponent } from './components/list-hotels/list-hotels.component';
 import { EditHotelFormComponent } from './components/forms/edit-hotel-form/edit-hotel-form.component';
 import { RoomListComponent } from './components/room-list/room-list.component';
 import { EditRoomComponent } from './components/forms/edit-room/edit-room.component';
 import { FormHotelDetailBookingComponent } from './components/forms/form-hotel-detail-booking/form-hotel-detail-booking.component';
 import { FormFilterHomeComponent } from './components/forms/form-filter-home/form-filter-home.component';
+import { BookingListComponent } from './components/booking-list/booking-list.component';
 
 
 
@@ -55,7 +55,6 @@ import { FormFilterHomeComponent } from './components/forms/form-filter-home/for
     HotelFormComponent,
     NavComponent,
     DashboardComponent,
-    ReservationListComponent,
     CardComponent,
     PublicLayoutComponent,
     PrivateLayoutComponent,
@@ -65,6 +64,7 @@ import { FormFilterHomeComponent } from './components/forms/form-filter-home/for
     EditRoomComponent,
     FormHotelDetailBookingComponent,
     FormFilterHomeComponent,
+    BookingListComponent,
   ],
   imports: [
     AuthModule,
