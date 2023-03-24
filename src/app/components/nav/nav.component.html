@@ -12,19 +12,28 @@
           <p class="nav-caption">Home</p>
         </div>
       </a>
-      <a mat-list-item [routerLink]="['/hotels']">
+      <a
+        *ngIf="isLogued"
+        mat-list-item
+        [routerLink]="['/hotels']">
         <div class="nav-item">
           <mat-icon>list</mat-icon>
           <p>Lista de Hoteles</p>
         </div>
       </a>
-      <a mat-list-item [routerLink]="['/reservationsList']">
+      <a
+        *ngIf="isLogued"
+        mat-list-item
+        [routerLink]="['/reservationsList']">
         <div class="nav-item">
           <mat-icon>event</mat-icon>
           <p class="nav-caption">Reservas</p>
         </div>
       </a>
-      <a mat-list-item [routerLink]="['/createHotel']">
+      <a
+        *ngIf="isLogued"
+        mat-list-item
+        [routerLink]="['/createHotel']">
         <div class="nav-item">
           <mat-icon>add_location</mat-icon>
           <p>Crear Hotel</p>
