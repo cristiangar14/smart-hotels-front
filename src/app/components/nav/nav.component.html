@@ -51,15 +51,15 @@
         mat-icon-button
         class=""
         aria-label=""
+        *ngIf="isLogued"
         (click)="logout()"
       >
         <mat-icon>logout</mat-icon>
       </button>
       <button
         mat-icon-button
-        class=""
-        aria-label=""
-        style="display:none;"
+
+        *ngIf="!isLogued"
         (click)="redirectLogin()"
       >
         <mat-icon>person</mat-icon>
