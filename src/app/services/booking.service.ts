@@ -43,7 +43,7 @@ export class BookingService {
 
   getAllBookings(): Observable<any>{
 
-    const refHotels = collection(this.firestore,'hotels');
+    const refHotels = collection(this.firestore,'bookings');
     return collectionSnapshots(refHotels).pipe(map(res => res.map(data => {
       const id = data.id
       const docData = data.data()
