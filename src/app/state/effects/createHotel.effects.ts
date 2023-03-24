@@ -14,7 +14,7 @@ export class CreateHotelEffects {
 
    createHotels$ = createEffect(() => this.actions$.pipe(
      ofType(sendCreateHotel),
-     exhaustMap((action) => this.hotelService.createHotel(action.newHotel)
+     exhaustMap((action) => this.hotelService.createHotel(action.newHotel, action.newRooms)
        .pipe(
         tap(console.log),
           map(hotel => hotelCreated({hotel})),
