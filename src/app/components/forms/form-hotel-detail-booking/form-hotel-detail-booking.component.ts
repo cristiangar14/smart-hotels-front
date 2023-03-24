@@ -77,7 +77,7 @@ export class FormHotelDetailBookingComponent {
   onSubmit() {
     if (this.hotelDetailBooking.valid) {
       this.store.dispatch(initCreateBooking({...this.hotelDetailBooking.value}))
-      this.router.navigate([`/reservation`])
+      this.router.navigate([`./reservation`])
     }
 
   }
