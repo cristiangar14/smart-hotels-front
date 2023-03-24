@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CITIES } from 'src/app/mocks/cities.mocks';
 import { ROOMTYPES } from 'src/app/mocks/typesRooms.mocks';
 import { IRoomType } from 'src/app/core/models/roomType.interface';
 import { Store } from '@ngrx/store';
 import { Appstate } from 'src/app/state/app.reducers';
-import { sendCreateHotel } from 'src/app/state/actions/createHotel.actions';
+import { sendCreateHotel, sendOtherCreateHotel } from 'src/app/state/actions/createHotel.actions';
 import { IHotel } from 'src/app/core/models/hotel.interface';
 import { sendCreateRooms } from 'src/app/state/actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hotel-form',
   templateUrl: './hotel-form.component.html',
   styleUrls: ['./hotel-form.component.scss']
 })
-export class HotelFormComponent  implements OnInit {
+export class HotelFormComponent  implements OnInit, OnDestroy {
 
 
   constructor(
@@ -22,7 +23,15 @@ export class HotelFormComponent  implements OnInit {
     private store: Store<Appstate>
     ){}
 
+
+  formactionsSub: Subscription = new Subscription();
   formCreateHotel: FormGroup = new FormGroup({});
+  minImgs:number = 5;
+  created:boolean = false;
+  loading:boolean = false;
+  error:boolean = false;
+  hotelAction: any = null;
+
 
 
   maxDate = new Date();
@@ -98,8 +107,21 @@ export class HotelFormComponent  implements OnInit {
   roomTypes: IRoomType[]= ROOMTYPES;
 
   ngOnInit(): void {
+    this.store.dispatch(sendOtherCreateHotel());
     this.maxDate.setDate(this.maxDate.getDate());
     this.minDate.setFullYear(this.minDate.getFullYear() - 100);
+
+    this.formactionsSub = this.store.select('createHotel').subscribe(({created, error, loading, hotel}) => {
+      this.loading = loading;
+      this.error = error;
+      this.created = created;
+      this.hotelAction = hotel;
+
+      if (created) {
+        this.formCreateHotel.disable()
+
+      }
+    })
 
     const commonAreas = this.formBuilder.group({
       pool: false,
@@ -110,7 +132,6 @@ export class HotelFormComponent  implements OnInit {
       bar: false,
       restaurant: false,
       campingArea: false,
-
     })
 
     const location = this.formBuilder.group({
@@ -135,8 +156,14 @@ export class HotelFormComponent  implements OnInit {
       images: this.formBuilder.array([]),
     })
 
+    for (let index = 0; index < this.minImgs; index++) {
+      this.addImages()
+    }
     this.addRomms()
-    this.addImages()
+  }
+
+  ngOnDestroy(): void {
+    this.formactionsSub.unsubscribe();
   }
 
   /**
@@ -221,7 +248,6 @@ export class HotelFormComponent  implements OnInit {
 
   onSubmit() {
     if (this.formCreateHotel.valid) {
-
       const {
         name,
         rooms,
@@ -247,14 +273,8 @@ export class HotelFormComponent  implements OnInit {
       }
       const newRooms = [...rooms]
 
-      this.store.dispatch(sendCreateHotel({newHotel}));
-      this.store.select('createHotel').subscribe(({id, created, error}) => {
-        if (id) {
-          const hotelId = id;
-          this.store.dispatch(sendCreateRooms({newRooms, hotelId}))
-        }
-      }).unsubscribe();
-      this.formCreateHotel.reset();
+      this.store.dispatch(sendCreateHotel({newHotel, newRooms}));
+
     } else {
       return;
     }
