@@ -19,3 +19,12 @@ export interface CreateBookingState{
   end: Date | null,
   numberGuests: number | null
 }
+
+
+export interface BookingsState{
+  bookings: BookingModel[] | null,
+  loading: boolean,
+  loaded: boolean,
+  error: any,
+
+}
