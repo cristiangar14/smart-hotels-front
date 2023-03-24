@@ -36,7 +36,7 @@ export class RoomListComponent implements OnInit {
       this.store.select('getRoomsByHotel').subscribe(({rooms, loading, error}) => {
         this.rooms = rooms;
 
-      }).unsubscribe()
+      })
     }
 
   }
