@@ -1,6 +1,6 @@
-<mat-card class="hotel-card">
+<mat-card class="">
   <mat-card-content>
-    <div class="container-rooms"></div>
+    <div class="container-rooms">
       <div (click)="openDialog(i)" class="puerta" *ngFor="let room of rooms; let i = index">
           <div class="puerta-cabecera"></div>
           <div class="puerta-cuerpo {{room.available ? 'available' : 'notAvailable'}}">
@@ -8,5 +8,6 @@
           </div>
         <div class="puerta-mango"></div>
       </div>
+    </div>
   </mat-card-content>
 </mat-card>
