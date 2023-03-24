@@ -5,6 +5,8 @@ import { distinctUntilChanged, filter, map, shareReplay, switchMap, tap } from '
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
+import { Store } from '@ngrx/store';
+import { Appstate } from 'src/app/state/app.reducers';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-
+  isLogued:boolean= false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(
@@ -23,16 +25,22 @@ export class NavComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private auht: AuthService,
+    private store: Store<Appstate>,
     private router: Router
-  ) {}
+    ) {}
 
 
-  ngOnInit(): void {
+    ngOnInit(): void {
+
+      this.store.select('auth').subscribe(({user}) => {
+          this.isLogued = user ? true: false;
+
+      })
 
   }
   redirectLogin() {
     // this.updateLoginStatus()
-    this.router.navigate(['login'])
+    this.router.navigate(['/login'])
   }
 
   logout() {
@@ -40,6 +48,7 @@ export class NavComponent implements OnInit {
       .then( resp => {
         sessionStorage.removeItem('token');
         this.router.navigate(['/home']);
+
 
       })
       .catch(error => {
