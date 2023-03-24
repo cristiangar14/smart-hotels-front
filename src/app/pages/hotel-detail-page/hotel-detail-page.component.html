@@ -10,21 +10,10 @@
     <mat-card-subtitle>{{hotel.location.city}}</mat-card-subtitle>
   </div>
   <div class="hotelDetailsImages">
-    <div class="hotelDetailsImage1">
-      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
+    <div class="hotelDetailsImage{{i+1}}" *ngFor="let item of hotel.images; let i = index">
+      <img mat-card-lg-image src={{item.url}} alt="image {{hotel?.name}} {{i}}">
     </div>
-    <div class="hotelDetailsImage2">
-      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
-    </div>
-    <div class="hotelDetailsImage3">
-      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
-    </div>
-    <div class="hotelDetailsImage4">
-      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
-    </div>
-    <div class="hotelDetailsImage5">
-      <img mat-card-lg-image src={{hotel.images[0].url}} alt="image {{hotel?.name}}">
-    </div>
+
   </div>
   <div class="hotelDetailsBody">
     <p class="hotelDetailsBody-p">{{hotel.coverText}}</p>
