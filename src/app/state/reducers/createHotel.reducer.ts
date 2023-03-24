@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { CreateHotelState } from 'src/app/core/models/hotel.state';
-import { errorCreateHotel, hotelCreated, sendCreateHotel } from '../actions';
+import { errorCreateHotel, hotelCreated, sendCreateHotel, sendOtherCreateHotel } from '../actions';
 
 
 export const createHotelInitialState: CreateHotelState = {
@@ -13,6 +13,13 @@ export const createHotelInitialState: CreateHotelState = {
 
 const _createHotelReducer = createReducer(
   createHotelInitialState,
+  on(sendOtherCreateHotel, (state) => ({
+    loading:false,
+    created:false,
+    error: null,
+    hotel: null,
+    id: null,
+  })),
   on(sendCreateHotel, (state, { newHotel }) => ({
     ...state,
     loading: true,
