@@ -14,7 +14,7 @@ export class HotelsEffects {
 
    loadHotels$ = createEffect(() => this.actions$.pipe(
      ofType(loadHotels),
-     exhaustMap(() => this.hotelService.getHotelsDataApi()
+     mergeMap(() => this.hotelService.getHotelsDataApi()
        .pipe(
          map(hotels => loadedHotels({hotels})),
          catchError(err => of(errorLoadedHotels({payload: err})))
@@ -22,14 +22,5 @@ export class HotelsEffects {
      )
    );
 
-   loadHotelsByFilter$ = createEffect(() => this.actions$.pipe(
-    ofType(loadHotelsByFilter),
-    mergeMap((actions) => this.hotelService.getHotelsFilter(actions.payload)
-      .pipe(
-        map(hotels => loadedHotels({hotels})),
-        catchError(err => of(errorLoadedHotels({payload: err})))
-      ))
-    )
-  );
 
 }

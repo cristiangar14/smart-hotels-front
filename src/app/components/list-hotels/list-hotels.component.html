@@ -1,4 +1,5 @@
-<div *ngIf="dataSource">
+<mat-spinner class="spinner" *ngIf="loading"></mat-spinner>
+<div *ngIf="dataSource && !loading">
   <table mat-table
          [dataSource]="dataSource"
          multiTemplateDataRows

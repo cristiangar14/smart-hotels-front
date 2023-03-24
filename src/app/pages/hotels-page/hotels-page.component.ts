@@ -14,9 +14,7 @@ import { selectErrorHotels, selectListHotels, selectLoadind } from 'src/app/stat
 export class HotelsPageComponent implements OnInit, OnDestroy {
 
   hotelsSub: Subscription = new Subscription();
-
-  errorData$: Observable<any> = new Observable();
-  loading$: Observable<boolean> = new Observable()
+  loading:boolean = false;
   hotels: IHotel[] | null = null;
 
   constructor(
@@ -30,9 +28,10 @@ export class HotelsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.hotelsSub =this.store.select(selectListHotels).subscribe({
-      next: (values) => {
-        this.hotels = [...values]
+    this.hotelsSub =this.store.select('hotelsByFilterList').subscribe({
+      next: ({hotels, loading}) => {
+        this.hotels = [...hotels]
+        this.loading = loading
       },
     })
   }

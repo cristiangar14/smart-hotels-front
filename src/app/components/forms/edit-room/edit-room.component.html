@@ -86,7 +86,7 @@
       </div>
       <div class="formUpdaterooms-btns">
         <button
-          *ngIf="enableEdit"
+          *ngIf="enableEdit && !loading"
           mat-raised-button
           color="primary"
           type="submit"
@@ -94,10 +94,19 @@
           >
           Guardar</button>
           <button
+          *ngIf="enableEdit && loading"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="true"
+          >
+          Guardando...</button>
+          <button
           mat-stroked-button
           *ngIf="enableEdit"
           color="warn"
           type="button"
+          [disabled]="loading"
           (click)="toogleEdit()"
           >
           Cancelar</button>

@@ -7,18 +7,13 @@ export const hotelsInitialState: HotelsState = {
   loaded:false,
   error: null,
   hotels:[],
-  filter: null,
 }
 
 const _hotelsReducer = createReducer(
   hotelsInitialState,
-  on(loadHotels, (state) => ({...state, loading: true})),
-  on(loadHotelsByFilter, (state, {payload}) => ({
-    ...state,
+  on(loadHotels, (state) => ({...state,
     loading: true,
-    loaded: false,
-    filter: {...payload}
-
+    loaded:false,
   })),
   on(loadedHotels, (state, {hotels}) => ({
     ...state,

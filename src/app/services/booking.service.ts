@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { addDoc, collection, Firestore, writeBatch, WriteBatch, doc, collectionSnapshots, getDoc } from '@angular/fire/firestore';
-import { map, Observable } from 'rxjs';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { BookingModel } from '../core/models/booking.model';
 
 @Injectable({
@@ -32,8 +32,9 @@ export class BookingService {
 
   getAllBookingsFilter(filter:any): Observable<any>{
       console.log('filter',filter)
-      const refHotels = collection(this.firestore,'hotels');
+      const refHotels = collection(this.firestore,'bookings');
       return collectionSnapshots(refHotels).pipe(
+        distinctUntilChanged(),
         map(res => res.map(data => {
         const id = data.id
         const docData = data.data()

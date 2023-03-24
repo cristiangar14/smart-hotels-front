@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { delay, filter, map, Observable, of } from 'rxjs';
+import { delay, distinctUntilChanged, filter, map, Observable, of, tap } from 'rxjs';
 import { HOTEL_LIST } from '../mocks/hotels.mocks';
 import { IHotel } from '../core/models/hotel.interface';
 import { Firestore, addDoc, collection, getDoc, doc, query, where, onSnapshot, collectionSnapshots, setDoc} from '@angular/fire/firestore';
@@ -30,16 +30,21 @@ export class HotelService {
     })))
   }
 
-  getHotelsFilter(filter:any): Observable<any>{
-      console.log('filter',filter)
+  getHotelsFilter(filterForm?:any): Observable<any>{
+      console.log('filter',filterForm)
       const refHotels = collection(this.firestore,'hotels');
-      return collectionSnapshots(refHotels).pipe(
-        map(res => res.map(data => {
-        const id = data.id
-        const docData = data.data()
-        return {...docData, id}
+      const q = query(refHotels, where('active', '==', true))
+      return collectionSnapshots(q).pipe(
+        distinctUntilChanged(),
+        map(res =>
+          res.map(data => {
+            const id = data.id
+            const docData = data.data()
 
-    })))
+            return {...docData, id}
+          })),
+        tap( data =>  console.log('tap', data)),
+      )
   }
 
 

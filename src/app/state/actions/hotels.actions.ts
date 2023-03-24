@@ -19,3 +19,13 @@ export const loadHotelsByFilter = createAction(
   '[Hotel List Filter] load hotels filter',
   props<{ payload: any }>()
 );
+
+export const loadedByFilterHotels = createAction(
+  '[Hotel List  Filter] loaded success',
+  props<{ hotels: IHotel[] }>()
+);
+
+export const errorLoadedHotelsByFilter = createAction(
+  '[Hotel List  Filter] error loaded success',
+  props<{ payload: any }>()
+);

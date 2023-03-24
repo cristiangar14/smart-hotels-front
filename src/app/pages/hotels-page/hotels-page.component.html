@@ -1,3 +1,4 @@
+<mat-spinner class="spinner" *ngIf="loading"></mat-spinner>
 <main *ngIf="hotels" class="hotels-container">
   <div *ngFor="let hotel of hotels ; let i=index" >
     <app-card [data]="hotel" ></app-card>

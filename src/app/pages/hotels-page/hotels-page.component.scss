@@ -1,7 +1,12 @@
 .hotels-container{
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   gap: 10px;
   padding: 2em;
 
+}
+
+.spinner {
+  margin: 3em auto;
 }

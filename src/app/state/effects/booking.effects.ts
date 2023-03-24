@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, exhaustMap, catchError, tap } from 'rxjs/operators';
+import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators';
 import { BookingService } from 'src/app/services/booking.service';
 import { bookingCreated, errorCreateBooking, loadBookings, loadedBookings, sendCreateBooking } from '../actions';
 
@@ -26,7 +26,7 @@ export class CreateBookingEffects {
 
    getAllBookings$ = createEffect(() => this.actions$.pipe(
     ofType(loadBookings),
-    exhaustMap((action) => this.bookingServices.getAllBookings()
+    mergeMap(() => this.bookingServices.getAllBookings()
       .pipe(
        tap(console.log),
          map(bookings => loadedBookings({bookings})),

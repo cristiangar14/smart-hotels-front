@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ROOMTYPES } from 'src/app/mocks/typesRooms.mocks';
 import { IRoomType } from 'src/app/core/models/roomType.interface';
@@ -6,15 +6,17 @@ import { Store } from '@ngrx/store';
 import { Appstate } from 'src/app/state/app.reducers';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IRoom } from 'src/app/core/models/room.model';
-import { updateRoom } from 'src/app/state/actions';
+import { getRoomsByHotel, updateRoom } from 'src/app/state/actions';
 import { selectSuccessUpdateRoom } from 'src/app/state/selectors/updateRoom.selectors';
+import { RoomService } from 'src/app/services/room.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-room',
   templateUrl: './edit-room.component.html',
   styleUrls: ['./edit-room.component.scss']
 })
-export class EditRoomComponent {
+export class EditRoomComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,8 +24,12 @@ export class EditRoomComponent {
     @Inject(MAT_DIALOG_DATA) public data: IRoom,
     ){}
 
+  updateActions: Subscription = new Subscription();
   formEditRoomHotel: FormGroup = new FormGroup({});
   enableEdit: boolean = true;
+  loading:boolean = false;
+  updated:boolean = false;
+
 
   errorMessage = {
     capacity: {
@@ -58,6 +64,20 @@ export class EditRoomComponent {
   roomTypes: IRoomType[]= ROOMTYPES;
 
   ngOnInit(): void {
+    this.updateActions = this.store.select('updateRoom').subscribe({
+      next: ({updated, loading}) => {
+        this.loading = loading
+
+        if (this.updated === updated) {
+          const hotelId = this.data.hotelId
+          this.updated = updated;
+          this.toogleEdit();
+          this.store.dispatch(getRoomsByHotel({hotelId}))
+        }
+
+      }
+    })
+
     this.formEditRoomHotel = this.formBuilder.group({
       available: this.data.available,
       capacity: [this.data.capacity, Validators.compose([Validators.required, Validators.min(1)])],
@@ -69,6 +89,10 @@ export class EditRoomComponent {
       location: [this.data.location, Validators.required],
     })
     this.toogleEdit()
+  }
+
+  ngOnDestroy(): void {
+    this.updateActions.unsubscribe();
   }
 
 

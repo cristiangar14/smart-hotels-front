@@ -23,14 +23,14 @@ export class CreateRoomsEffects {
      )
    );
 
-  updateRoom$ = createEffect(() => this.actions$.pipe(
-    ofType(updateRoom),
-    exhaustMap((action) => this.roomService.updateRoom(action.room, action.id)
-      .pipe(
-        map(message => updatedRoom({message})),
-        catchError(err => of(errorUpdateRoom({payload: err})))
-      ))
+    updateRoom$ = createEffect(() => this.actions$.pipe(
+      ofType(updateRoom),
+      exhaustMap((action) => this.roomService.updateRoom(action.room, action.id)
+        .pipe(
+          map(message => updatedRoom({message})),
+          catchError(err => of(errorUpdateRoom({payload: err})))
+        ))
+      )
     )
-  )
 
 }

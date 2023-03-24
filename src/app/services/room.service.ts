@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, Firestore, writeBatch, WriteBatch, doc, query, where, getDocs, setDoc } from '@angular/fire/firestore';
+import { addDoc, collection, Firestore, writeBatch, WriteBatch, doc, query, where, getDocs, setDoc, updateDoc } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { IRoom } from '../core/models/room.model';
 
@@ -11,8 +11,6 @@ export class RoomService {
   constructor(
     private firestore: Firestore
     ) { }
-
-
 
 
   getRoomsByHotel(hotelId:string){
@@ -64,24 +62,47 @@ export class RoomService {
     })
   }
 
+  updateRoom(room:IRoom, roomId:string):Observable<any>{
+
+    const {
+      description,
+      type,
+      capacity,
+      available,
+      basisCost,
+      tax,
+      code,
+      location,
+      hotelId,
+      id,
+    } = room;
+
+    const dataUpdate: IRoom =  {
+      description,
+      type,
+      capacity,
+      available,
+      basisCost,
+      tax,
+      code,
+      location,
+      hotelId,
+    };
 
 
-  updateRoom(room:IRoom, id:string): Observable<any>{
-
-    const refHotels = collection(this.firestore,'rooms');
-    const docRef = doc(refHotels,id)
+    const refRooms = collection(this.firestore,'rooms');
+    const docRef = doc(refRooms, roomId);
     return  new Observable( observer => {
-      setDoc(docRef, room).then( resp => {
-        observer.next({message: 'Hotel actualizado correctamente'});
+      setDoc(docRef, {...dataUpdate}, { merge: true })
+      .then(() => {
+        observer.next({mesagge: 'create succesfully'});
         observer.complete();
+      })
+      .catch((error) => {
+        console.error('Error updating document: ', error);
+      });
 
-        })
-        .catch( error => observer.error(error))
     })
-
-  }
-
-  deleteRoom(){
 
   }
 

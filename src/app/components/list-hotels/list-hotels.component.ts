@@ -6,7 +6,7 @@ import { selectListHotels } from 'src/app/state/selectors';
 
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { IHotel } from 'src/app/core/models/hotel.interface';
-import { getRoomsByHotel } from 'src/app/state/actions';
+import { getRoomsByHotel, loadHotels } from 'src/app/state/actions';
 
 @Component({
   selector: 'app-list-hotels',
@@ -27,7 +27,7 @@ import { getRoomsByHotel } from 'src/app/state/actions';
 export class ListHotelsComponent implements OnInit, OnDestroy {
   dataSourceSub: Subscription = new Subscription();
   dataSource: IHotel[] | null = null;
-
+  loading:boolean = false;
   columnsToDisplay = ['name', 'numberRooms', 'active'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: IHotel | null = null;
@@ -40,8 +40,12 @@ export class ListHotelsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataSourceSub = this.store.select(selectListHotels).subscribe({
-      next: (hotels) => this.dataSource = [...hotels]
+    this.store.dispatch(loadHotels())
+    this.dataSourceSub = this.store.select('hotelsList').subscribe({
+      next: ({hotels, loading}) => {
+        this.dataSource = [...hotels];
+        this.loading = loading
+      }
     })
 
   }

@@ -11,6 +11,7 @@ import { UIState } from "./reducers/ui.reducer";
 
 export interface Appstate {
   hotelsList: HotelsState;
+  hotelsByFilterList: HotelsState;
   hotel: HotelState;
   createHotel: CreateHotelState;
   createRooms: CreateRoomState;
@@ -26,6 +27,7 @@ export interface Appstate {
 
 export const appReducers: ActionReducerMap<Appstate> = {
   hotelsList: reducers.hotelsReducer,
+  hotelsByFilterList: reducers.hotelsByFilterReducer,
   hotel: reducers.hotelReducer,
   createHotel: reducers.createHotelReducer,
   createRooms: reducers.createRoomsReducer,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
-import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators';
+import { map, exhaustMap, catchError, tap, mergeMap, switchMap } from 'rxjs/operators';
 import { RoomService } from 'src/app/services/room.service';
 import { errorGetRoomsByHotel, getRoomsByHotel, roomsByHotelObtained } from '../actions';
 
@@ -14,7 +14,7 @@ export class GetRoomsByHotelEffects {
 
     GetRoomsByHotel$ = createEffect(() => this.actions$.pipe(
      ofType(getRoomsByHotel),
-     mergeMap((action) => this.roomService.getRoomsByHotel(action.hotelId)
+     switchMap((action) => this.roomService.getRoomsByHotel(action.hotelId)
        .pipe(
         tap(console.log),
           map(rooms => roomsByHotelObtained({rooms})),

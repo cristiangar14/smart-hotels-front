@@ -28,14 +28,15 @@ const routes: Routes = [
   {
     path:'hotels',
     component: ListHotelsComponent,
-  },
-  {
-    path:'reservation',
-    component: ReservationFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path:'hotels/:id',
     component: HotelDetailPageComponent,
+  },
+  {
+    path:'reservation',
+    component: ReservationFormComponent,
   },
   {
     path:'createHotel',
