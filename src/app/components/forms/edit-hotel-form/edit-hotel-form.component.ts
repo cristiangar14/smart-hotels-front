@@ -199,7 +199,7 @@ addRomms() {
       type: ['', Validators.required],
       basisCost: [ '', Validators.compose([Validators.required, Validators.min(0)])],
       tax: ['', Validators.compose([Validators.required, Validators.min(0)])],
-      // description:['',Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(250)])],
+      description:['',Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(250)])],
       code: ['', Validators.compose([Validators.required, Validators.maxLength(5)])],
       location: ['', Validators.required],
     })
