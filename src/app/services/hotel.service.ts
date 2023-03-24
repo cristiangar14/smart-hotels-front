@@ -3,6 +3,10 @@ import { delay, filter, map, Observable, of } from 'rxjs';
 import { HOTEL_LIST } from '../mocks/hotels.mocks';
 import { IHotel } from '../core/models/hotel.interface';
 import { Firestore, addDoc, collection, getDoc, doc, query, where, onSnapshot, collectionSnapshots, setDoc} from '@angular/fire/firestore';
+import { IRoom } from '../core/models/room.model';
+import { Store } from '@ngrx/store';
+import { Appstate } from '../state/app.reducers';
+import { sendCreateRooms } from '../state/actions';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +15,8 @@ export class HotelService {
   hotelList:IHotel[] = HOTEL_LIST;
 
   constructor(
-    private firestore: Firestore
+    private firestore: Firestore,
+    private store:Store<Appstate>
     ) { }
 
   getHotelsDataApi(): Observable<any>{
@@ -121,11 +126,13 @@ export class HotelService {
 
   }
 
-  createHotel(hotel:IHotel){
+  createHotel(hotel:IHotel, newRooms:IRoom[]){
     const hotelsRef = collection(this.firestore, 'hotels')
     return new Observable( observer => {
       addDoc(hotelsRef, {...hotel}).then( docRef => {
-          const hotelCreated = {...hotel, id:docRef.id};
+        const hotelId = docRef.id
+        const hotelCreated = {...hotel, id:docRef.id};
+          this.store.dispatch(sendCreateRooms({newRooms, hotelId}))
           observer.next(hotelCreated);
           observer.complete();
         })
