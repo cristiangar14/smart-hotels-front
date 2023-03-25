@@ -134,8 +134,14 @@ export class HotelService {
 
   getHotelsFilter(filterForm?:any): Observable<any>{
       console.log('filter',filterForm)
-      const refHotels = collection(this.firestore,'hotels');
-      const q = query(refHotels, where('active', '==', true))
+      const refHotels = collection(this.firestore, 'hotels');
+      let q = query(refHotels, where('active', '==', true));
+
+      if (filterForm && filterForm.city) {
+        const city = filterForm.city;
+        q = query(refHotels, where('active', '==', true), where('location.city', '==', city));
+      }
+
       return collectionSnapshots(q).pipe(
         distinctUntilChanged(),
         map(res =>
@@ -144,8 +150,10 @@ export class HotelService {
             const docData = data.data()
 
             return {...docData, id}
-          })),
+          }))
+
       )
    }
+
 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { debounceTime } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 import { IRoomType } from 'src/app/core/models/roomType.interface';
 import { CITIES } from 'src/app/mocks/cities.mocks';
@@ -53,6 +53,7 @@ export class FormFilterHomeComponent implements OnInit {
 
 
     this.hotelFilter.valueChanges.pipe(
+      distinctUntilChanged(),
       debounceTime(500)
     ).subscribe({
       next: () => {
