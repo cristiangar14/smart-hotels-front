@@ -132,104 +132,20 @@ export class HotelService {
     }
 
 
-    getHotelsFilter(filterForm?:any): Observable<any>{
-       console.log('filter',filterForm)
-       const refHotels = collection(this.firestore,'hotels');
-       const q = query(refHotels, where('active', '==', true))
-       return collectionSnapshots(q).pipe(
-         distinctUntilChanged(),
-         map(res =>
-           res.map(data => {
-             const id = data.id
-             const docData = data.data()
+  getHotelsFilter(filterForm?:any): Observable<any>{
+      console.log('filter',filterForm)
+      const refHotels = collection(this.firestore,'hotels');
+      const q = query(refHotels, where('active', '==', true))
+      return collectionSnapshots(q).pipe(
+        distinctUntilChanged(),
+        map(res =>
+          res.map(data => {
+            const id = data.id
+            const docData = data.data()
 
-             return {...docData, id}
-           })),
-         tap( data =>  console.log('tap', data)),
-       )
+            return {...docData, id}
+          })),
+      )
    }
-
-
-   sgetHotelsFilter(filterGet: any): Observable<any> {
-    if (!filterGet) {
-      return of([]);
-    }
-
-    const {
-      city,
-      start,
-      end,
-      numberGuests
-    } = filterGet
-
-    const refHotels = collection(this.firestore,'hotels');
-    let q:any ='';
-
-    if (city) {
-      q = query(refHotels, where('location.city', '==', city), where('active', 'in', [true, undefined]));
-    } else {
-      q = query(refHotels, where('location.city', '>=', ''), where('active', 'in', [true, undefined]));
-    }
-
-    return from(getDocs(q)).pipe(
-      mergeMap(querySnapshot => {
-        const obs = querySnapshot.docs.map(doc =>
-          this.getAvailableRoomsByHotel(doc.id, start, end, numberGuests).pipe(
-            map(({ isAvailable }) => {
-              if (isAvailable.length > 0) {
-                const data:any = doc.data();
-                return {
-                  ...data,
-                  id: doc.id,
-                  isAvailable
-                };
-              }
-            })
-          )
-        );
-
-        return forkJoin(obs);
-      }),
-      map(data => data.filter(item => item !== undefined))
-    );
-  }
-
-  getAvailableRoomsByHotel(hotelId: string, start: Date, end: Date, numberGuests: number): Observable<any> {
-    const refRooms = collection(this.firestore,'rooms');
-    const q = query(refRooms, where('hotelId', '==', hotelId), where('available', '==', true), where('capacity', '>=', numberGuests));
-return from(getDocs(q)).pipe(
-  mergeMap(querySnapshot => {
-    const availableRooms = querySnapshot.docs.filter(doc => {
-      const room = doc.data();
-      return this.checkRoomAvailability(room['id'], start, end).pipe(map(isAvailable => isAvailable));
-    });
-    return forkJoin(availableRooms);
-  }),
-  map(availableRooms => {
-    return {
-      isAvailable: availableRooms.filter(room => room !== null)
-    };
-  })
-);
-  }
-
-checkRoomAvailability(roomId: string, start: Date, end: Date): Observable<boolean> {
-  const refBookings = collection(this.firestore,'bookings');
-  const startTimestamp = new Date(start).getTime();
-  const endTimestamp = new Date(end).getTime();
-  const q = query(refBookings,
-    where('roomId', '==', roomId),
-    where('rangeTimestamp', '<', endTimestamp),
-    where('rangeTimestamp', '>', startTimestamp)
-  );
-
-  return from(getDocs(q)).pipe(
-    map(querySnapshot => querySnapshot.empty),
-    catchError(err => {
-      console.log('Error fetching bookings: ', err);
-      return throwError('Error fetching bookings');
-    })
-  );
-}
 
 }

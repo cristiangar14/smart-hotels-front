@@ -5,7 +5,7 @@ import { IRoom } from 'src/app/core/models/room.model';
 
 export const initCreateBooking = createAction(
   '[BOOKING] init create booking',
-  props<{ start: Date, end: Date, numberGuests: number }>(),
+  props<{ start: Date, end: Date, numberGuests: number, room:IRoom }>(),
 
 );
 

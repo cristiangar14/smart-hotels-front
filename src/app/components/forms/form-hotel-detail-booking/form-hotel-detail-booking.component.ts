@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { IRoom } from 'src/app/core/models/room.model';
 import { IRoomType } from 'src/app/core/models/roomType.interface';
 import { ROOMTYPES } from 'src/app/mocks/typesRooms.mocks';
-import { initCreateBooking } from 'src/app/state/actions';
+import { getRoomsByHotel, initCreateBooking } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
 
 @Component({
@@ -25,11 +27,21 @@ export class FormHotelDetailBookingComponent {
     guests: {
       required: 'Este campo es requerido',
       min: 'Debes seleccionar al menos 1 huesped'
-    }
+    },
+    type: {
+      required: 'Este campo es requerido'
+    },
   }
+  hotelSelectsubs: Subscription = new Subscription();
+  roomshotelSelectsubs: Subscription = new Subscription();
   maxDate = new Date();
   minDate = new Date().getFullYear() + 1;
   roomTypes: IRoomType[]= ROOMTYPES;
+  roomTypesAct: IRoomType[]= [];
+  rooms: any = []
+  hotelId: any = '';
+  typeInit: any = 'SS';
+  priceRoom: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,15 +51,48 @@ export class FormHotelDetailBookingComponent {
 
   ngOnInit(): void {
 
+    this.hotelSelectsubs = this.store.select('hotel').subscribe({
+      next: ({id}) => {
+        const hotelId = id
+        this.hotelId = id;
+        if(hotelId){ this.store.dispatch(getRoomsByHotel({hotelId}))}
+      }
+    })
+
+
+    this.roomshotelSelectsubs = this.store.select('getRoomsByHotel').subscribe({
+      next: async ({rooms}) => {
+        this.rooms = rooms;
+
+        this.changeType();
+
+        const filteredRoomTypes = this.roomTypes.filter(type => {
+          return rooms.some(room => room.type == type.code);
+        });
+
+        this.roomTypesAct = [...filteredRoomTypes];
+
+      }
+    })
+
+
     this.hotelDetailBooking = this.formBuilder.group({
+      type: [ '' , Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
       numberGuests: [1, Validators.compose([Validators.required, Validators.min(1)])],
     })
 
 
-    // Nos suscribimos a los cambios que ocurran en el formulario
-    // this.hotelDetailBooking.valueChanges.subscribe(console.log);
+
+    this.hotelDetailBooking.valueChanges.pipe(
+      distinctUntilChanged()
+    ).subscribe({
+      next: (data) => {
+       this.changeType()
+    }
+    });
+
 
 
   }
@@ -57,6 +102,16 @@ export class FormHotelDetailBookingComponent {
     return date >= currentDate && date <= this.maxDate;
   }
 
+  changeType(){
+    this.rooms.forEach((room:IRoom)  => {
+      const {type} = this.hotelDetailBooking.value
+      if (room.type === type ) {
+        const basic = Number(room.basisCost)
+        const valueTax = (basic * room.tax)/100
+        this.priceRoom = basic + valueTax;
+      }
+    })
+  }
 
 
   /**
@@ -76,7 +131,11 @@ export class FormHotelDetailBookingComponent {
 
   onSubmit() {
     if (this.hotelDetailBooking.valid) {
-      this.store.dispatch(initCreateBooking({...this.hotelDetailBooking.value}))
+
+      const {start, end, numberGuests, type} = this.hotelDetailBooking.value
+      const room = this.rooms.find((el: IRoom) => el.type == type)
+
+      this.store.dispatch(initCreateBooking({start, end, numberGuests, room}))
       this.router.navigate([`./reservation`])
     }
 

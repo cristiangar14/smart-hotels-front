@@ -1,4 +1,5 @@
 import { GuestsModel } from "./guest.model";
+import { IRoom } from "./room.model";
 
 export class BookingModel {
   constructor(
@@ -11,5 +12,6 @@ export class BookingModel {
     public id?: string,
     public roomId?: string,
     public hotelId?: string,
+    public room?: IRoom
     ){}
 }

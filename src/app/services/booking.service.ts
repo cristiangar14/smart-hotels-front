@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, Firestore, writeBatch, WriteBatch, doc, collectionSnapshots, getDoc } from '@angular/fire/firestore';
+import { addDoc, collection, Firestore, writeBatch, WriteBatch, doc, collectionSnapshots, getDoc, setDoc } from '@angular/fire/firestore';
 import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { BookingModel } from '../core/models/booking.model';
 
@@ -14,13 +14,13 @@ export class BookingService {
 
 
   getBookingById(id:string): Observable<any>{
-    const refHotels = collection(this.firestore,'hotels');
+    const refHotels = collection(this.firestore,'bookins');
     const docRef = doc(refHotels,id)
     return  new Observable( observer => {
       getDoc(docRef).then( resp => {
           const data = resp.data();
           if (!data) {
-            observer.error({message: 'Hotel no encontrado'})
+            observer.error({message: 'Reserva no encontrado'})
           } else {
             observer.next();
             observer.complete();
@@ -28,18 +28,6 @@ export class BookingService {
         })
         .catch( error => observer.error(error))
     })
-  }
-
-  getAllBookingsFilter(filter:any): Observable<any>{
-      console.log('filter',filter)
-      const refHotels = collection(this.firestore,'bookings');
-      return collectionSnapshots(refHotels).pipe(
-        distinctUntilChanged(),
-        map(res => res.map(data => {
-        const id = data.id
-        const docData = data.data()
-        return {...docData, id}
-    })))
   }
 
   getAllBookings(): Observable<any>{
@@ -67,4 +55,54 @@ export class BookingService {
 
     })
   }
+
+
+  updateRoom(booking:BookingModel, bookingId:string):Observable<any>{
+
+    const {
+      responsible,
+      start,
+      end,
+      emergencyContact,
+      rangeTimestamp,
+      guests,
+      roomId,
+      hotelId,
+      room
+    } = booking;
+
+    const dataUpdate: BookingModel =  {
+      responsible,
+      start,
+      end,
+      emergencyContact,
+      rangeTimestamp,
+      guests,
+      roomId,
+      hotelId,
+      room
+    };
+
+
+    const refRooms = collection(this.firestore,'bookings');
+    const docRef = doc(refRooms, bookingId);
+    return  new Observable( observer => {
+      setDoc(docRef, {...dataUpdate}, { merge: true })
+      .then(() => {
+        observer.next({mesagge: 'create succesfully'});
+        observer.complete();
+      })
+      .catch((error) => {
+        console.error('Error updating document: ', error);
+      });
+
+    })
+
+  }
+
+
+
+
+
+
 }

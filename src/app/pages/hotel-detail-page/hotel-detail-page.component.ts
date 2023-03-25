@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { RoomService } from 'src/app/services/room.service';
 import { loadAvailableRooms, loadHotel } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
 import { selectErrorHotel, selectHotel, selectLoadindHotel } from 'src/app/state/selectors/hotel.selector';
@@ -19,9 +20,13 @@ export class HotelDetailPageComponent implements OnInit, OnDestroy{
   loading: boolean =  false;
   hotel: any;
   hotelId: any;
+  start: Date = new Date();
+  end: Date = new Date();
+  numberGuest: number = 1;
 
   constructor(
       private route: ActivatedRoute,
+      private roomService: RoomService,
       private store: Store<Appstate>
     ){}
 
@@ -43,7 +48,22 @@ export class HotelDetailPageComponent implements OnInit, OnDestroy{
         this.errorData = error;
         this.loading = loading;
 
-        this.store.dispatch(loadAvailableRooms(id, ))
+
+      }
+    })
+    this.filterInitsub$ = this.store.select('hotelsByFilterList').subscribe({
+      next: ({filter}) => {
+        this.start = filter.start;
+        this.end = filter.end;
+        this.numberGuest = filter.numberGuest;
+        this.store.dispatch(loadAvailableRooms({hotelId:this.hotelId, start: filter.start, end: filter.end, numberGuests: filter.numberGuests}))
+        // this.roomService.getAvailableRooms(this.hotelId, filter.start, filter.end, filter.numberGuests).subscribe({
+        //   next: (data) => console.log('next', data),
+        //   error: err => console.error('err', err),
+        //   complete() {
+        //     console.log('complete')
+        //   },
+        // })
       }
     })
 
@@ -52,6 +72,7 @@ export class HotelDetailPageComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.hotelsub$.unsubscribe();
+    this.filterInitsub$.unsubscribe();
   }
 
 }

@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -92,52 +93,32 @@ export class EditResevationFormComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private store: Store<Appstate>
+    private store: Store<Appstate>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit(): void {
 
+    console.log(this.data)
 
-    let start: Date | null = null;
-    let end: Date | null = null;
-    let numberGuests: number | null = null;
+    this.hotelSelect = this.data.item.hotel;
+    this.booking = this.data.item.booking;
+
 
     this.store.select('createBooking').subscribe({
       next: (data) =>  this.loading = data.loading
     })
-    this.store.select(selectHotel).subscribe({
-      next: (data) =>  data ? this.hotelSelect  = data: null
-    })
-    if (this.hotelSelect){
-      this.store.select(selectStartCreateBooking).subscribe({
-        next: (data) =>  data ? start  = data: null
-      })
-      this.store.select(selectEndCreateBooking).subscribe({
-        next: (data) =>  data ? end  = data: null
-      })
-      this.store.select(selectNumberGuestCreateBooking).subscribe({
-        next: (data) =>  data ? numberGuests  = data: null
-      })
 
-      this.booking = {
-        start,
-        end,
-      }
-
-    }
 
     this.loadinSub = this.store.select('ui').subscribe({
       next: (data) =>  this.loading  = data.isLoading
     })
 
-    //Setear los valores minimos y maximos de las fechas
-    this.maxDate.setDate(this.maxDate.getDate());
-    this.minDate.setFullYear(this.minDate.getFullYear() - 100);
 
     // se crea el grupo de formulario para los datos del contacto de emergencia
     const emergencyContact = this.formBuilder.group({
-      name: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(30)])],
-      phone: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+      name: [this.booking.emergencyContact.nanme, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(30)])],
+      phone: [this.booking.emergencyContact.phone, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
     })
 
     this.formReservation = this.formBuilder.group({
@@ -145,7 +126,9 @@ export class EditResevationFormComponent {
       guests: this.formBuilder.array([]),
     })
 
-    this.addGuest()
+    this.booking.guests.forEach((guest:any) => {
+      this.addGuest(guest)
+    });
   }
 
 
@@ -163,16 +146,16 @@ export class EditResevationFormComponent {
     return this.formReservation.get('guests') as FormArray
   }
 
-  addGuest() {
+  addGuest(guest?:any) {
       this.disableAddGuest = false;
       const passegerNew = this.formBuilder.group({
-        name: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(30)])],
-        email: ['', Validators.compose([Validators.required, Validators.email])],
-        gender: ['', Validators.required],
-        dateOfBirth: ['', Validators.required],
-        document: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(30)])],
-        documentType: ['', Validators.compose([Validators.required])],
-        phone: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+        name: [guest.name, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(30)])],
+        email: [guest.email, Validators.compose([Validators.required, Validators.email])],
+        gender: [guest.gender, Validators.required],
+        dateOfBirth: [guest.dateOfBirth, Validators.required],
+        document: [guest.docmunet, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(30)])],
+        documentType: [guest.documentType, Validators.compose([Validators.required])],
+        phone: [guest.phone, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
       })
       this.guestsForm.push(passegerNew)
   }

@@ -7,9 +7,9 @@
     grid-template-rows: 1fr 1fr;
     gap: 10px 10px;
     grid-template-areas:
-      "range-filter range-filter"
+      "range-filter type-filter"
       "city-filter guests-filter";
-    max-width: 400px;
+    max-width: 600px;
     margin: 0 auto;
   }
 
@@ -18,6 +18,8 @@
   .city-filter { grid-area: city-filter; }
 
   .guest-filter { grid-area: guest-filter; }
+
+  .type-filter { grid-area: type-filter; }
 }
 
 

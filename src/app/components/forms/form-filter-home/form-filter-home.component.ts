@@ -21,11 +21,14 @@ export class FormFilterHomeComponent implements OnInit {
   errorMessage = {
     guests: {
       min: 'Debes seleccionar al menos 1 huesped'
-    }
+    },
+    type: {
+      required: 'Este campo es requerido'
+    },
   }
-  initStartDate = new Date();
-  initEndDate = new Date();
+
   cities:{name:string, code:string}[]= CITIES;
+  roomTypes: IRoomType[]= ROOMTYPES;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,13 +43,10 @@ export class FormFilterHomeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.setInitialDates(this.initStartDate, 5);
-    this.setInitialDates(this.initEndDate, 12);
-
-
     this.hotelFilter = this.formBuilder.group({
-      start: this.initStartDate,
-      end: this.initEndDate,
+      type: ['', Validators.required],
+      start: '',
+      end: '',
       numberGuests: [1, Validators.compose([Validators.min(1)])],
       city: ''
     })
@@ -61,11 +61,6 @@ export class FormFilterHomeComponent implements OnInit {
     });
   }
 
-
-  setInitialDates(date: Date, days:number){
-    date.setDate(date.getDate() + days);
-    return date;
-  }
 
   /**
 

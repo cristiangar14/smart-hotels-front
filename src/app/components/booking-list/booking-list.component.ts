@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { BookingModel } from 'src/app/core/models/booking.model';
 import { IHotel } from 'src/app/core/models/hotel.interface';
-import { loadBookings } from 'src/app/state/actions';
+import { loadBookings, loadHotels } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
 import { EditResevationFormComponent } from '../forms/edit-resevation-form/edit-resevation-form.component';
 
@@ -32,6 +32,7 @@ export class BookingListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(loadBookings());
+    this.store.dispatch(loadHotels());
     this.store.select('hotelsList').subscribe({
       next: ({hotels}) => this.hotelList  = [...hotels]
     })
@@ -43,15 +44,17 @@ export class BookingListComponent implements OnInit, OnDestroy {
           const data:any = [];
 
           bookings.forEach((booking: BookingModel) => {
-            const hotel = this.getHotelData(booking.hotelId)?.name;
+            const hotel = this.getHotelData(booking.hotelId);
             const start = this.getDateFormatted(booking.start);
             const end = this.getDateFormatted(booking.start);
+
 
             const item = {
               nameResponsible : booking.responsible.name,
               start,
               end,
               hotel,
+              booking
             }
             data.push(item)
 
@@ -67,8 +70,11 @@ export class BookingListComponent implements OnInit, OnDestroy {
     this.bookingsSub.unsubscribe();
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(EditResevationFormComponent);
+  openDialog(item:any) {
+
+    const dialogRef = this.dialog.open(EditResevationFormComponent, {
+      data: {item},
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

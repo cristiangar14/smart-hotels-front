@@ -1,4 +1,6 @@
 import { BookingModel } from "./booking.model";
+import { IRoom } from "./room.model";
+import { IRoomType } from "./roomType.interface";
 
 
 export interface BookingState{
@@ -18,6 +20,7 @@ export interface CreateBookingState{
   start: Date | null,
   end: Date | null,
   numberGuests: number | null
+  room: IRoom | null
 }
 
 

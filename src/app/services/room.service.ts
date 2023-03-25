@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, Firestore, writeBatch, WriteBatch, doc, query, where, getDocs, setDoc, updateDoc } from '@angular/fire/firestore';
-import { catchError, forkJoin, from, map, mergeMap, Observable, of, throwError } from 'rxjs';
+import { addDoc, getDocs,collection, Firestore, writeBatch, WriteBatch, doc, query, where,  setDoc, updateDoc, QueryDocumentSnapshot, DocumentData } from '@angular/fire/firestore';
+import { catchError, combineLatest, finalize, forkJoin, from, map, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
 import { IRoom } from '../core/models/room.model';
 
 @Injectable({
@@ -125,33 +125,8 @@ export class RoomService {
     })
   }
 
-
-  getAvailableRoomsByHotel(hotelId: string, start: Date, end: Date, numberGuests: number): Observable<any> {
-    const refRooms = collection(this.firestore,'rooms');
-    const q = query(refRooms, where('hotelId', '==', hotelId), where('available', '==', true), where('capacity', '>=', numberGuests));
-    return from(getDocs(q)).pipe(
-      mergeMap(querySnapshot => {
-        const availableRooms = querySnapshot.docs.filter(doc => {
-          const room = doc.data();
-          return this.checkRoomAvailability(room['id'], start, end).pipe(map(isAvailable => isAvailable));
-        });
-        return forkJoin(availableRooms);
-      }),
-      map(availableRooms => {
-        return availableRooms.filter(room => room !== null).map(room => {
-          const data = room['data']();
-          return {
-            id: room.id,
-            ...data
-          }
-        });
-      })
-    );
-  };
-
-
   checkRoomAvailability(roomId: string, start: Date, end: Date): Observable<boolean> {
-    const refBookings = collection(this.firestore,'bookings');
+    const refBookings = collection(this.firestore, 'bookings');
     const startTimestamp = new Date(start).getTime();
     const endTimestamp = new Date(end).getTime();
     const q = query(refBookings,
@@ -161,10 +136,13 @@ export class RoomService {
     );
 
     return from(getDocs(q)).pipe(
-      map(querySnapshot => querySnapshot.empty),
+      map(doc => !!doc),
       catchError(err => {
         console.log('Error fetching bookings: ', err);
         return throwError('Error fetching bookings');
+      }),
+      finalize(() => {
+        // Close connection with Firestore
       })
     );
   }

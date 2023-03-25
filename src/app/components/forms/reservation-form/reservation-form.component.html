@@ -101,6 +101,7 @@
           mat-raised-button
           color="accent"
           type="button"
+          *ngIf="disableAddGuest"
           [disabled]="disableAddGuest"
           (click)="addGuest()"
         >

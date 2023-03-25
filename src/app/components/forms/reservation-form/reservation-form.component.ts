@@ -27,6 +27,7 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   end:any
   start:any
   numberGuests: any
+  room: any
   created: boolean = false
 
   //TODO:  la capacidad de la habitacion y restringir la cantidad de pasajeros
@@ -107,14 +108,17 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     let numberGuests: number | null = null;
 
     this.store.select('createBooking').subscribe({
-      next: ({loading, start, end, numberGuests, created}) =>  {
+      next: ({loading, start, end, numberGuests, created, room}) =>  {
         this.loading = loading
-        this.start = start,
-        this.end = end,
-        this.numberGuests = numberGuests,
+        this.start = start
+        this.end = end
+        this.numberGuests = numberGuests
         this.created = created
+        this.room = room
+
       }
     })
+
     this.store.select(selectHotel).subscribe({
       next: (data) =>  data ? this.hotelSelect  = data: null
     })
@@ -212,6 +216,10 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     return this.guestsForm.length
   }
 
+  removeBtnAdd(){
+    this.disableAddGuest = this.room.capacity >= this.guestsForm ? true : false;
+
+  }
 
   onSubmit() {
     if (this.formReservation.valid) {
@@ -226,8 +234,9 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
         start: new Date(this.start),
         end: new Date(this.end),
         rangeTimestamp: `${startTimestamp}-${endTimestamp}`,
-        roomId: '23132sd',
+        roomId: this.room.id,
         hotelId: this.hotelSelect?.id,
+        room: this.room
       };
 
 

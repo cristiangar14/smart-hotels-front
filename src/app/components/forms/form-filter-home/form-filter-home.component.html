@@ -26,6 +26,15 @@
         {{ errorMessage.guests.min }}
       </mat-error>
     </mat-form-field>
+    <mat-form-field class="type-filter" appearance="outline">
+      <mat-label>Tipo</mat-label>
+      <mat-select  formControlName="type">
+        <mat-option *ngFor="let type of roomTypes" [value]="type.code">{{type.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="isFieldInvalid('type', 'required')">
+        {{ errorMessage.type.required }}
+      </mat-error>
+    </mat-form-field>
   </form>
 </div>
 

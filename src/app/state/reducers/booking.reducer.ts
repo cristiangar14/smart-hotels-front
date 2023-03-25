@@ -11,18 +11,20 @@ export const createBookingInitialState: CreateBookingState = {
   booking: null,
   start: null,
   end: null,
-  numberGuests: null
+  numberGuests: null,
+  room: null,
 }
 
 const _createBookingReducer = createReducer(
   createBookingInitialState,
-  on(initCreateBooking, (state, { start, end, numberGuests }) => ({
+  on(initCreateBooking, (state, { start, end, numberGuests, room }) => ({
     ...state,
     loading: false,
     created: false,
     start,
     end,
-    numberGuests
+    numberGuests,
+    room
   })),
   on(sendCreateBooking, (state, { newBooking }) => ({
     ...state,
@@ -34,7 +36,7 @@ const _createBookingReducer = createReducer(
     ...state,
     loading: false,
     created:true,
-    room: {}
+    booking: null
 
   })),
   on(errorCreateBooking, (state, {payload}) => ({
