@@ -1,31 +1,21 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { BookingModel } from 'src/app/core/models/booking.model';
 import { IHotel } from 'src/app/core/models/hotel.interface';
-import { bookingCreated, isLoading, sendCreateBooking, stopLoading } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
-import { selectEndCreateBooking, selectHotel, selectNumberGuestCreateBooking, selectStartCreateBooking } from 'src/app/state/selectors';
-import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-edit-resevation-form',
-  templateUrl: './edit-resevation-form.component.html',
-  styleUrls: ['./edit-resevation-form.component.scss']
+  selector: 'app-booking-details',
+  templateUrl: './booking-details.component.html',
+  styleUrls: ['./booking-details.component.scss']
 })
-export class EditResevationFormComponent {
+export class BookingDetailsComponent {
   booking: any;
   hotelSelect: IHotel | null = null;
   priceBooking: number = 0;
   start: string= '';
   end: string= '';
-
-
-
-
 
   documentTypes:{title:string, value:string}[]= [
     {
@@ -55,7 +45,6 @@ export class EditResevationFormComponent {
 
 
   constructor(
-    private formBuilder: FormBuilder,
     private router: Router,
     private store: Store<Appstate>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -89,6 +78,7 @@ export class EditResevationFormComponent {
     return fechaFormateada1;
 
   }
+
 
 
 }

@@ -40,7 +40,7 @@ import { EditRoomComponent } from './components/forms/edit-room/edit-room.compon
 import { FormHotelDetailBookingComponent } from './components/forms/form-hotel-detail-booking/form-hotel-detail-booking.component';
 import { FormFilterHomeComponent } from './components/forms/form-filter-home/form-filter-home.component';
 import { BookingListComponent } from './components/booking-list/booking-list.component';
-import { EditResevationFormComponent } from './components/resevation-details-ant/edit-resevation-form.component';
+import { BookingDetailsComponent } from './components/booking-details/booking-details.component';
 
 
 
@@ -64,7 +64,7 @@ import { EditResevationFormComponent } from './components/resevation-details-ant
     FormHotelDetailBookingComponent,
     FormFilterHomeComponent,
     BookingListComponent,
-    EditResevationFormComponent,
+    BookingDetailsComponent,
   ],
   imports: [
     AuthModule,

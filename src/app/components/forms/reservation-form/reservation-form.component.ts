@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { BookingModel } from 'src/app/core/models/booking.model';
 import { IHotel } from 'src/app/core/models/hotel.interface';
+import { MailService } from 'src/app/services/mail.service';
 import { bookingCreated, isLoading, sendCreateBooking, stopLoading } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
 import { selectEndCreateBooking, selectHotel, selectNumberGuestCreateBooking, selectStartCreateBooking } from 'src/app/state/selectors';
@@ -97,6 +98,7 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private mailService: MailService,
     private store: Store<Appstate>
   ) { }
 
@@ -241,6 +243,7 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
 
 
       this.store.dispatch(sendCreateBooking({newBooking}))
+      this.mailService.sendEmail(newBooking)
       this.store.select(bookingCreated).subscribe({
         next: () => {
             this.router.navigate(['./home'])
