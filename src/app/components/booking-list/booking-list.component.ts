@@ -46,7 +46,7 @@ export class BookingListComponent implements OnInit, OnDestroy {
           bookings.forEach((booking: BookingModel) => {
             const hotel = this.getHotelData(booking.hotelId);
             const start = this.getDateFormatted(booking.start);
-            const end = this.getDateFormatted(booking.start);
+            const end = this.getDateFormatted(booking.end);
 
 
             const item = {
