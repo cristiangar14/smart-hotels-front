@@ -7,7 +7,7 @@ import { BookingModel } from 'src/app/core/models/booking.model';
 import { IHotel } from 'src/app/core/models/hotel.interface';
 import { loadBookings, loadHotels } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
-import { EditResevationFormComponent } from '../forms/edit-resevation-form/edit-resevation-form.component';
+import { EditResevationFormComponent } from '../resevation-details-ant/edit-resevation-form.component';
 
 @Component({
   selector: 'app-booking-list',

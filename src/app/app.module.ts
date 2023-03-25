@@ -8,15 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { HomePageComponent } from './pages/home-page/home-page.component';
-import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
-import { HotelDetailPageComponent } from './pages/hotel-detail-page/hotel-detail-page.component';
-import { HotelsPageComponent } from './pages/hotels-page/hotels-page.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+import { HotelDetailPageComponent } from './components/hotel-detail-page/hotel-detail-page.component';
+import { HotelsPageComponent } from './components/hotels-page/hotels-page.component';
 import { ReservationFormComponent } from './components/forms/reservation-form/reservation-form.component';
 import { HotelFormComponent } from './components/forms/hotel-form/hotel-form.component';
 import { NavComponent } from './components/nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CardComponent } from './components/card/card.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -41,7 +40,7 @@ import { EditRoomComponent } from './components/forms/edit-room/edit-room.compon
 import { FormHotelDetailBookingComponent } from './components/forms/form-hotel-detail-booking/form-hotel-detail-booking.component';
 import { FormFilterHomeComponent } from './components/forms/form-filter-home/form-filter-home.component';
 import { BookingListComponent } from './components/booking-list/booking-list.component';
-import { EditResevationFormComponent } from './components/forms/edit-resevation-form/edit-resevation-form.component';
+import { EditResevationFormComponent } from './components/resevation-details-ant/edit-resevation-form.component';
 
 
 
@@ -55,7 +54,6 @@ import { EditResevationFormComponent } from './components/forms/edit-resevation-
     ReservationFormComponent,
     HotelFormComponent,
     NavComponent,
-    DashboardComponent,
     CardComponent,
     PublicLayoutComponent,
     PrivateLayoutComponent,

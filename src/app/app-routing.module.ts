@@ -6,11 +6,10 @@ import { HotelFormComponent } from './components/forms/hotel-form/hotel-form.com
 import { LoginFormComponent } from './components/forms/login-form/login-form.component';
 import { ReservationFormComponent } from './components/forms/reservation-form/reservation-form.component';
 import { AuthGuard } from './guards/auth.guard';
-import { HomePageComponent } from './pages/home-page/home-page.component';
-import { HotelDetailPageComponent } from './pages/hotel-detail-page/hotel-detail-page.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { HotelDetailPageComponent } from './components/hotel-detail-page/hotel-detail-page.component';
 import { ListHotelsComponent } from './components/list-hotels/list-hotels.component';
-import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
-import { BookingGuard } from './guards/booking.guard';
+import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 
 const routes: Routes = [
    {
@@ -38,7 +37,6 @@ const routes: Routes = [
   {
     path:'reservation',
     component: ReservationFormComponent,
-    canActivate: [BookingGuard]
   },
   {
     path:'createHotel',
