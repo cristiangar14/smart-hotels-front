@@ -10,6 +10,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { HotelDetailPageComponent } from './components/hotel-detail-page/hotel-detail-page.component';
 import { ListHotelsComponent } from './components/list-hotels/list-hotels.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+import { BookingGuard } from './guards/booking.guard';
 
 const routes: Routes = [
    {
@@ -28,15 +29,16 @@ const routes: Routes = [
   {
     path:'hotels',
     component: ListHotelsComponent,
-    // canActivate: [AuthGuard]
   },
   {
     path:'hotels/:id',
     component: HotelDetailPageComponent,
   },
   {
-    path:'reservation',
+    path:'reservation/:id',
     component: ReservationFormComponent,
+    canActivate: [BookingGuard]
+
   },
   {
     path:'createHotel',
