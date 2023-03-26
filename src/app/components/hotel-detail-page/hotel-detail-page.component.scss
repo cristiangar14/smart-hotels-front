@@ -18,8 +18,6 @@ mat-spinner{
 
   .hotelDetailsImage5 { display: none; }
 
-  .hotelDetailsHeader { }
-
   .hotelDetailsImages {
     display: flex;
 
@@ -52,7 +50,7 @@ mat-spinner{
 
       .hotelDetailsBody-commonAreas-item{
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
         align-items: center;
         gap: 10px;
         max-width: 160px;
