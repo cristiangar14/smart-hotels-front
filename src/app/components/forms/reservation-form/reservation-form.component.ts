@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { BookingModel } from 'src/app/core/models/booking.model';
 import { IHotel } from 'src/app/core/models/hotel.interface';
 import { MailService } from 'src/app/services/mail.service';
-import { bookingCreated, isLoading, sendCreateBooking, stopLoading } from 'src/app/state/actions';
+import { bookingCreated, isLoading, loadHotel, sendCreateBooking, stopLoading } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
 import { selectEndCreateBooking, selectHotel, selectNumberGuestCreateBooking, selectStartCreateBooking } from 'src/app/state/selectors';
 import Swal from 'sweetalert2';
@@ -98,6 +98,7 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private mailService: MailService,
     private store: Store<Appstate>
   ) { }
@@ -120,6 +121,14 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
 
       }
     })
+
+    this.route.params.subscribe(
+      ({id}) => {
+        if (id) {
+            this.store.dispatch(loadHotel({id}))
+        }
+      }
+  )
 
     this.store.select(selectHotel).subscribe({
       next: (data) =>  data ? this.hotelSelect  = data: null
