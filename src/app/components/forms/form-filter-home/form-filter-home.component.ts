@@ -44,7 +44,7 @@ export class FormFilterHomeComponent implements OnInit {
   ngOnInit(): void {
 
     this.hotelFilter = this.formBuilder.group({
-      type: ['', Validators.required],
+      type: ['SS', Validators.required],
       start: '',
       end: '',
       numberGuests: [1, Validators.compose([Validators.min(1)])],
