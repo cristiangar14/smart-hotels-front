@@ -58,13 +58,13 @@ export class BookingDetailsComponent {
     this.start = this.getDateFormatted(this.booking.start);
     this.end = this.getDateFormatted(this.booking.end);
 
-    console.log(this.booking)
+    this.getPriceBooking()
 
   }
 
   getPriceBooking(){
     const basic = Number(this.booking.room.basisCost)
-    const tax = Number(this.booking.room.basisCost)
+    const tax = Number(this.booking.room.tax)
     const valueTax = (basic * tax)/100
     this.priceBooking = basic + valueTax;
   }
