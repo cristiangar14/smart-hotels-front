@@ -136,7 +136,9 @@ export class FormHotelDetailBookingComponent {
       const room = this.rooms.find((el: IRoom) => el.type == type)
 
       this.store.dispatch(initCreateBooking({start, end, numberGuests, room}))
-      this.router.navigate([`/reservation`])
+      this.router.navigate([`/reservation/${this.hotelId}`])
+      sessionStorage.setItem('hotel', this.hotelId)
+
     }
 
   }
