@@ -2,9 +2,8 @@
   padding: 2em;
 
   form{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 10px 10px;
     grid-template-areas:
       "range-filter type-filter"
@@ -13,13 +12,38 @@
     margin: 0 auto;
   }
 
-  .range-filter { grid-area: range-filter; }
 
-  .city-filter { grid-area: city-filter; }
-
-  .guest-filter { grid-area: guest-filter; }
-
-  .type-filter { grid-area: type-filter; }
 }
 
 
+@media (min-width: 750px){
+
+
+
+  .hotelDetailBookingForm-container{
+    padding: 2em;
+
+    form{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px 10px;
+      grid-template-areas:
+        "range-filter type-filter"
+        "city-filter guests-filter";
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .range-filter { grid-area: range-filter; }
+
+    .city-filter { grid-area: city-filter; }
+
+    .guest-filter { grid-area: guest-filter; }
+
+    .type-filter { grid-area: type-filter; }
+
+  }
+
+
+}
