@@ -22,6 +22,6 @@ export class CardComponent implements OnInit{
 
   passDetail(hotel:IHotel){
 
-    this.router.navigate([`./hotels/${hotel.id}`])
+    this.router.navigate([`/hotels/${hotel.id}`])
   }
 }

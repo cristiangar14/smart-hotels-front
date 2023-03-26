@@ -246,7 +246,7 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
       this.mailService.sendEmail(newBooking)
       this.store.select(bookingCreated).subscribe({
         next: () => {
-            this.router.navigate(['./home'])
+            this.router.navigate(['/home'])
           },
         error: (err) => {
           Swal.fire({

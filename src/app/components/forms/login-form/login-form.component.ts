@@ -79,7 +79,7 @@ export class LoginFormComponent implements OnInit, OnDestroy{
 
       this.authService.login(email,password).then( data => {
             this.store.dispatch(stopLoading())
-            this.router.navigate(['./home'])
+            this.router.navigate(['/home'])
           }
         ).catch(err => {
             this.store.dispatch(stopLoading())
