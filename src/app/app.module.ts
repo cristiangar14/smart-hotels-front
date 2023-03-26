@@ -32,8 +32,6 @@ import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
-import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
-import { PrivateLayoutComponent } from './layouts/private-layout/private-layout.component';
 import { ListHotelsComponent } from './components/list-hotels/list-hotels.component';
 import { EditHotelFormComponent } from './components/forms/edit-hotel-form/edit-hotel-form.component';
 import { RoomListComponent } from './components/room-list/room-list.component';
@@ -56,8 +54,6 @@ import { BookingDetailsComponent } from './components/booking-details/booking-de
     HotelFormComponent,
     NavComponent,
     CardComponent,
-    PublicLayoutComponent,
-    PrivateLayoutComponent,
     ListHotelsComponent,
     EditHotelFormComponent,
     RoomListComponent,
