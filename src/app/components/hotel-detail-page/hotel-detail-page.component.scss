@@ -65,8 +65,6 @@ mat-spinner{
     }
   }
 
-  .hotelDetailsFormBooking {  }
-
 }
 
 
@@ -155,7 +153,6 @@ mat-spinner{
      "hotelDetailsBody hotelDetailsBody hotelDetailsFormBooking";
  }
 
-// .hotelDetailsHeader { grid-area: hotelDetailsHeader; }
 
  .hotelDetailsImages {  display: grid;
    grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -168,16 +165,3 @@ mat-spinner{
    grid-area: hotelDetailsImages;
  }
 
-// .hotelDetailsImage1 { grid-area: hotelDetailsImage1; }
-
-// .hotelDetailsImage2 { grid-area: hotelDetailsImage2; }
-
-// .hotelDetailsImage3 { grid-area: hotelDetailsImage3; }
-
-// .hotelDetailsImage4 { grid-area: hotelDetailsImage4; }
-
-// .hotelDetailsImage5 { grid-area: hotelDetailsImage5; }
-
-// .hotelDetailsBody { grid-area: hotelDetailsBody; }
-
-// .hotelDetailsFormBooking { grid-area: hotelDetailsFormBooking; }
