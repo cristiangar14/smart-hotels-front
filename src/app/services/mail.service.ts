@@ -11,7 +11,6 @@ export class MailService {
       private firestore: Firestore
     ) { }
 
-
   sendEmail(booking:any){
     console.log(booking)
 
@@ -24,15 +23,11 @@ export class MailService {
     }
     const hotelsRef = collection(this.firestore, 'mail')
 
-    console.log(booking)
-
-
      addDoc(hotelsRef, {...data}).then( () => {
       Swal.fire('Reserva confirmada')
 
        })
        .catch( error => console.error(error))
-
 
   }
 

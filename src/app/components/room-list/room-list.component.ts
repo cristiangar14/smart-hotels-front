@@ -1,11 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { IHotel } from 'src/app/core/models/hotel.interface';
 import { IRoom } from 'src/app/core/models/room.model';
 import { getRoomsByHotel } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
-import { selectErrorGetRoomsByHotel, selectLoadingGetRoomsByHotel } from 'src/app/state/selectors';
 import { MatDialog } from '@angular/material/dialog';
 import { EditRoomComponent } from '../forms/edit-room/edit-room.component';
 
@@ -21,7 +19,6 @@ export class RoomListComponent implements OnInit {
   errorData$: Observable<any> = new Observable();
   loading$: Observable<boolean> = new Observable();
   roomSelect: any = null;
-
 
   constructor(
     private store: Store<Appstate>,
@@ -41,16 +38,9 @@ export class RoomListComponent implements OnInit {
 
   }
 
-
   openDialog(i:number) {
-
     this.roomSelect = this.rooms[i]
-
     const dialogRef = this.dialog.open(EditRoomComponent, { data: this.roomSelect});
-
-
   }
-
-
 
 }

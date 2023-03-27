@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { catchError, delay, distinctUntilChanged, filter, forkJoin, from, map, mergeMap, Observable, of, tap, throwError } from 'rxjs';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { HOTEL_LIST } from '../mocks/hotels.mocks';
 import { IHotel } from '../core/models/hotel.interface';
-import { Firestore, addDoc, collection, getDoc, doc, query, where, onSnapshot, collectionSnapshots, setDoc, getDocs} from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, getDoc, doc, query, where, collectionSnapshots, setDoc } from '@angular/fire/firestore';
 import { IRoom } from '../core/models/room.model';
 import { Store } from '@ngrx/store';
 import { Appstate } from '../state/app.reducers';
@@ -20,7 +20,6 @@ export class HotelService {
     private roomService: RoomService,
     private store:Store<Appstate>
     ) { }
-
 
     getHotelById(id:string): Observable<IHotel>{
       const refHotels = collection(this.firestore,'hotels');
@@ -133,7 +132,6 @@ export class HotelService {
 
 
   getHotelsFilter(filterForm?:any): Observable<any>{
-      console.log('filter',filterForm)
       const refHotels = collection(this.firestore, 'hotels');
       let q = query(refHotels, where('active', '==', true));
 
@@ -154,6 +152,5 @@ export class HotelService {
 
       )
    }
-
 
 }

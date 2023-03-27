@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { addDoc, collection, Firestore, writeBatch, WriteBatch, doc, collectionSnapshots, getDoc, setDoc } from '@angular/fire/firestore';
-import { distinctUntilChanged, map, Observable } from 'rxjs';
+import { addDoc, collection, Firestore, doc, collectionSnapshots, getDoc, setDoc } from '@angular/fire/firestore';
+import { map, Observable } from 'rxjs';
 import { BookingModel } from '../core/models/booking.model';
 
 @Injectable({
@@ -11,7 +11,6 @@ export class BookingService {
   constructor(
     private firestore: Firestore
     ) { }
-
 
   getBookingById(id:string): Observable<any>{
     const refHotels = collection(this.firestore,'bookins');
@@ -31,7 +30,6 @@ export class BookingService {
   }
 
   getAllBookings(): Observable<any>{
-
     const refHotels = collection(this.firestore,'bookings');
     return collectionSnapshots(refHotels).pipe(map(res => res.map(data => {
       const id = data.id
@@ -40,8 +38,6 @@ export class BookingService {
 
   })))
 }
-
-
 
   createBooking(booking: BookingModel){
     const hotelsRef = collection(this.firestore, 'bookings')
@@ -52,13 +48,11 @@ export class BookingService {
           observer.complete();
         })
         .catch( error => observer.error(error))
-
     })
   }
 
 
   updateRoom(booking:BookingModel, bookingId:string):Observable<any>{
-
     const {
       responsible,
       start,
@@ -83,7 +77,6 @@ export class BookingService {
       room
     };
 
-
     const refRooms = collection(this.firestore,'bookings');
     const docRef = doc(refRooms, bookingId);
     return  new Observable( observer => {
@@ -99,10 +92,5 @@ export class BookingService {
     })
 
   }
-
-
-
-
-
 
 }

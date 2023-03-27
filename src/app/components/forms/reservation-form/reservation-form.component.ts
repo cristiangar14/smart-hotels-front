@@ -31,7 +31,6 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   room: any
   created: boolean = false
 
-  //TODO:  la capacidad de la habitacion y restringir la cantidad de pasajeros
   roomCapacity:number = 1;
   disableAddGuest: boolean = false;
 
@@ -39,13 +38,25 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
 
   documentTypes:{title:string, value:string}[]= [
     {
-      title: 'Cedula',
+      title: 'Cédula de ciudadanía',
       value: 'CC'
     },
     {
-      title: 'T.Identidad',
+      title: 'Tarjeta de identidad',
       value: 'TI'
-    }
+    },
+    {
+      title: 'Cédula de extranjería',
+      value: 'CE'
+    },
+    {
+      title: 'Pasaporte',
+      value: 'PA'
+    },
+    {
+      title: 'Permiso especial de permanencia',
+      value: 'PEP'
+    },
   ]
 
   genders:{title:string, value:string}[]= [

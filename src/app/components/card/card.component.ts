@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { IHotel } from 'src/app/core/models/hotel.interface';
 
 @Component({
@@ -21,7 +21,6 @@ export class CardComponent implements OnInit{
   }
 
   passDetail(hotel:IHotel){
-
     this.router.navigate([`/hotels/${hotel.id}`])
   }
 }

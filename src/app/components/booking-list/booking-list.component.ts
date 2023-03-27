@@ -48,7 +48,6 @@ export class BookingListComponent implements OnInit, OnDestroy {
             const start = this.getDateFormatted(booking.start);
             const end = this.getDateFormatted(booking.end);
 
-
             const item = {
               nameResponsible : booking.responsible.name,
               start,
@@ -71,7 +70,6 @@ export class BookingListComponent implements OnInit, OnDestroy {
   }
 
   openDialog(item:any) {
-
     const dialogRef = this.dialog.open(BookingDetailsComponent, {
       data: {item},
     });

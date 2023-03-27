@@ -1,13 +1,17 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-
-
-import { MaterialModule } from './modules/material/material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule} from '@angular/common/http';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { appReducers } from './state/app.reducers';
+import { EffectsArray } from './state/effects';
+
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
@@ -18,11 +22,9 @@ import { HotelFormComponent } from './components/forms/hotel-form/hotel-form.com
 import { NavComponent } from './components/nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CardComponent } from './components/card/card.component';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
-import { appReducers } from './state/app.reducers';
-import { EffectsArray } from './state/effects';
+
+//Styles
+import { MaterialModule } from './modules/material/material.module';
 
 //Auth
 import { AuthModule } from './auth/auth.module';
@@ -40,8 +42,6 @@ import { FormHotelDetailBookingComponent } from './components/forms/form-hotel-d
 import { FormFilterHomeComponent } from './components/forms/form-filter-home/form-filter-home.component';
 import { BookingListComponent } from './components/booking-list/booking-list.component';
 import { BookingDetailsComponent } from './components/booking-details/booking-details.component';
-
-
 
 @NgModule({
   declarations: [

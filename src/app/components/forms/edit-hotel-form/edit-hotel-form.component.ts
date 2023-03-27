@@ -5,7 +5,6 @@ import { ROOMTYPES } from 'src/app/mocks/typesRooms.mocks';
 import { IRoomType } from 'src/app/core/models/roomType.interface';
 import { Store } from '@ngrx/store';
 import { Appstate } from 'src/app/state/app.reducers';
-import { sendCreateHotel } from 'src/app/state/actions/createHotel.actions';
 import { IHotel } from 'src/app/core/models/hotel.interface';
 import { sendCreateRooms, updateHotel } from 'src/app/state/actions';
 import { IRoom } from 'src/app/core/models/room.model';

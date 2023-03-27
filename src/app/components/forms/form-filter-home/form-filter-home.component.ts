@@ -34,12 +34,7 @@ export class FormFilterHomeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private store: Store<Appstate>
-  ){
-
-
-  }
-
-
+  ){}
 
   ngOnInit(): void {
 
@@ -51,7 +46,9 @@ export class FormFilterHomeComponent implements OnInit {
       city: ''
     })
 
-
+    /**
+     * Subscripcion a los cambios del formulario
+     */
     this.hotelFilter.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(500)
@@ -85,7 +82,5 @@ export class FormFilterHomeComponent implements OnInit {
     }
 
   }
-
-
 
 }

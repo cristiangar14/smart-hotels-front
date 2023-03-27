@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { Appstate } from 'src/app/state/app.reducers';
 import { sendCreateHotel, sendOtherCreateHotel } from 'src/app/state/actions/createHotel.actions';
 import { IHotel } from 'src/app/core/models/hotel.interface';
-import { sendCreateRooms } from 'src/app/state/actions';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -17,12 +16,10 @@ import { Subscription } from 'rxjs';
 })
 export class HotelFormComponent  implements OnInit, OnDestroy {
 
-
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<Appstate>
     ){}
-
 
   formactionsSub: Subscription = new Subscription();
   formCreateHotel: FormGroup = new FormGroup({});
@@ -31,8 +28,6 @@ export class HotelFormComponent  implements OnInit, OnDestroy {
   loading:boolean = false;
   error:boolean = false;
   hotelAction: any = null;
-
-
 
   maxDate = new Date();
   minDate = new Date();
@@ -208,6 +203,9 @@ export class HotelFormComponent  implements OnInit, OnDestroy {
   }
 
 
+  /**
+   * Metodo para agregar campos de imagenes al formulario
+   */
   addImages() {
     const newImage = this.formBuilder.group({
       url: ['', Validators.compose([Validators.required, Validators.minLength(12)])],
@@ -216,13 +214,14 @@ export class HotelFormComponent  implements OnInit, OnDestroy {
     this.imagesForm.push(newImage)
   }
 
+  /**
+   * Metodo para borrar campos de imagenes del formulario
+   */
   removeImage(i: number) {
     this.imagesForm.removeAt(i)
   }
 
-
   /**
-
   Método para obtener el total de habitaciones
   @returns Total de habitaciones
   */
@@ -231,7 +230,6 @@ export class HotelFormComponent  implements OnInit, OnDestroy {
   }
 
   /**
-
   Método para validar si un campo es inválido y mostrar su respectivo error
   @param formControlName Nombre del campo
   @param form Grupo de formulario que contiene el campo

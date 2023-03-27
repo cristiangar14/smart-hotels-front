@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { RoomService } from 'src/app/services/room.service';
 import { loadAvailableRooms, loadHotel } from 'src/app/state/actions';
 import { Appstate } from 'src/app/state/app.reducers';
@@ -30,6 +30,7 @@ export class HotelDetailPageComponent implements OnInit, OnDestroy{
     ){}
 
   ngOnInit(): void {
+    // Nos suscribimos a los params y despachamos la carga del hotel
     this.route.params.subscribe(
         ({id}) => {
           if (id) {
@@ -38,18 +39,16 @@ export class HotelDetailPageComponent implements OnInit, OnDestroy{
         }
     )
 
-
-
+    // nos suscribimos al store para obtener los datos del hotel
     this.hotelsub$ = this.store.select('hotel').subscribe({
       next: ({hotel, loading, id, error}) => {
         this.hotel = hotel;
         this.hotelId = id;
         this.errorData = error;
         this.loading = loading;
-
-
       }
     })
+
     this.filterInitsub$ = this.store.select('hotelsByFilterList').subscribe({
       next: ({filter}) => {
         this.start = filter.start;

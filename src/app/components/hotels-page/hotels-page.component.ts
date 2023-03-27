@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { IHotel } from 'src/app/core/models/hotel.interface';
 import { Appstate } from 'src/app/state/app.reducers';
-import { selectErrorHotels, selectListHotels, selectLoadind } from 'src/app/state/selectors/hotels.selectors';
 
 @Component({
   selector: 'app-hotels-page',

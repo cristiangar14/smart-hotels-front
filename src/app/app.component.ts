@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AuthService } from './services/auth.service';
-import { HotelService } from './services/hotel.service';
-import { loadHotels, loadHotelsByFilter } from './state/actions';
+import { loadHotelsByFilter } from './state/actions';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +13,6 @@ export class AppComponent {
 
   constructor(
       private authService: AuthService,
-      private hotelService: HotelService,
       private store: Store<any>
   ){
     const payload = {
@@ -25,11 +23,7 @@ export class AppComponent {
     }
 
     this.authService.initAuthListener();
-    //this.hotelService.getHotelsFilter(payload).subscribe(console.log)
-    //
     this.store.dispatch(loadHotelsByFilter({payload}))
   }
-
-
 
 }

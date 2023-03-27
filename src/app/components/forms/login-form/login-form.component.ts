@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -14,8 +14,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit, OnDestroy{
-
-
   hide:boolean = true;
   loginForm : FormGroup = new FormGroup({});
   loadinSub: Subscription = new Subscription();
@@ -32,14 +30,12 @@ export class LoginFormComponent implements OnInit, OnDestroy{
 
   }
 
-
   constructor(
       private formBuilder: FormBuilder,
       private authService: AuthService,
       private router: Router,
       private store: Store<Appstate>
     ){}
-
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({

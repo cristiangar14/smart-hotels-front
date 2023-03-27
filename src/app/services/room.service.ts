@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { addDoc, getDocs,collection, Firestore, writeBatch, WriteBatch, doc, query, where,  setDoc, updateDoc, QueryDocumentSnapshot, DocumentData } from '@angular/fire/firestore';
-import { catchError, combineLatest, finalize, forkJoin, from, map, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
+import { getDocs,collection, Firestore, writeBatch, doc, query, where,  setDoc } from '@angular/fire/firestore';
+import { catchError, finalize, from, map, Observable, throwError } from 'rxjs';
 import { IRoom } from '../core/models/room.model';
 
 @Injectable({
@@ -12,7 +12,6 @@ export class RoomService {
     private firestore: Firestore
     ) { }
 
-
   getRoomsByHotel(hotelId:string){
     const roomsRef = collection(this.firestore, 'rooms')
     const q = query(roomsRef, where("hotelId", "==", hotelId));
@@ -23,7 +22,6 @@ export class RoomService {
 
         resp.docs.forEach( doc => {
           const docRoom = {...doc.data()}
-
 
           const {
               description,
@@ -63,7 +61,6 @@ export class RoomService {
   }
 
   updateRoom(room:IRoom, roomId:string):Observable<any>{
-
     const {
       description,
       type,
@@ -89,7 +86,6 @@ export class RoomService {
       hotelId,
     };
 
-
     const refRooms = collection(this.firestore,'rooms');
     const docRef = doc(refRooms, roomId);
     return  new Observable( observer => {
@@ -103,7 +99,6 @@ export class RoomService {
       });
 
     })
-
   }
 
   createRooms(rooms: IRoom[], hotelId:string){
@@ -138,12 +133,9 @@ export class RoomService {
     return from(getDocs(q)).pipe(
       map(doc => !!doc),
       catchError(err => {
-        console.log('Error fetching bookings: ', err);
         return throwError('Error fetching bookings');
       }),
-      finalize(() => {
-        // Close connection with Firestore
-      })
+      finalize(() => {})
     );
   }
 

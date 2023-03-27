@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { distinctUntilChanged, Subscription } from 'rxjs';
 import { IRoom } from 'src/app/core/models/room.model';
 import { IRoomType } from 'src/app/core/models/roomType.interface';
 import { ROOMTYPES } from 'src/app/mocks/typesRooms.mocks';
@@ -42,6 +42,7 @@ export class FormHotelDetailBookingComponent {
   hotelId: any = '';
   typeInit: any = 'SS';
   priceRoom: number = 0;
+  numberGuest: number = 1;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -75,15 +76,12 @@ export class FormHotelDetailBookingComponent {
       }
     })
 
-
     this.hotelDetailBooking = this.formBuilder.group({
       type: [ '' , Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
-      numberGuests: [1, Validators.compose([Validators.required, Validators.min(1)])],
+      numberGuests: [this.numberGuest, Validators.compose([Validators.required, Validators.min(1)])],
     })
-
-
 
     this.hotelDetailBooking.valueChanges.pipe(
       distinctUntilChanged()
@@ -93,15 +91,11 @@ export class FormHotelDetailBookingComponent {
     }
     });
 
-
-
   }
 
-  dateFilter = (date: Date): boolean => {
-    const currentDate = new Date();
-    return date >= currentDate && date <= this.maxDate;
-  }
-
+  /**
+   * Metodo para actualizar el precio segun el tipo de habitacion seleccionado
+   */
   changeType(){
     this.rooms.forEach((room:IRoom)  => {
       const {type} = this.hotelDetailBooking.value
@@ -131,14 +125,13 @@ export class FormHotelDetailBookingComponent {
 
   onSubmit() {
     if (this.hotelDetailBooking.valid) {
-
       const {start, end, numberGuests, type} = this.hotelDetailBooking.value
       const room = this.rooms.find((el: IRoom) => el.type == type)
-
       this.store.dispatch(initCreateBooking({start, end, numberGuests, room}))
       this.router.navigate([`/reservation/${this.hotelId}`])
-      sessionStorage.setItem('hotel', this.hotelId)
 
+      // Enviamos al sessionStorage el id del hotel para la recarga de de la visata ed reserva
+      sessionStorage.setItem('hotel', this.hotelId)
     }
 
   }

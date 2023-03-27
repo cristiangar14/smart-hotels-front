@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subscription, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Appstate } from 'src/app/state/app.reducers';
-import { selectListHotels } from 'src/app/state/selectors';
 
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { IHotel } from 'src/app/core/models/hotel.interface';
-import { getRoomsByHotel, loadHotels } from 'src/app/state/actions';
+import { loadHotels } from 'src/app/state/actions';
 
 @Component({
   selector: 'app-list-hotels',
@@ -21,9 +20,6 @@ import { getRoomsByHotel, loadHotels } from 'src/app/state/actions';
   ],
 })
 
-
-
-
 export class ListHotelsComponent implements OnInit, OnDestroy {
   dataSourceSub: Subscription = new Subscription();
   dataSource: IHotel[] | null = null;
@@ -31,7 +27,6 @@ export class ListHotelsComponent implements OnInit, OnDestroy {
   columnsToDisplay = ['name', 'numberRooms', 'active'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: IHotel | null = null;
-
 
   constructor(
       private store: Store<Appstate>
@@ -53,7 +48,5 @@ export class ListHotelsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.dataSourceSub.unsubscribe()
   }
-
-
 
 }

@@ -19,13 +19,25 @@ export class BookingDetailsComponent {
 
   documentTypes:{title:string, value:string}[]= [
     {
-      title: 'Cedula',
+      title: 'Cédula de ciudadanía',
       value: 'CC'
     },
     {
-      title: 'T.Identidad',
+      title: 'Tarjeta de identidad',
       value: 'TI'
-    }
+    },
+    {
+      title: 'Cédula de extranjería',
+      value: 'CE'
+    },
+    {
+      title: 'Pasaporte',
+      value: 'PA'
+    },
+    {
+      title: 'Permiso especial de permanencia',
+      value: 'PEP'
+    },
   ]
 
   genders:{title:string, value:string}[]= [
@@ -54,7 +66,6 @@ export class BookingDetailsComponent {
 
     this.hotelSelect = this.data.item.hotel;
     this.booking = this.data.item.booking;
-
     this.start = this.getDateFormatted(this.booking.start);
     this.end = this.getDateFormatted(this.booking.end);
 
@@ -62,6 +73,9 @@ export class BookingDetailsComponent {
 
   }
 
+  /**
+   * Metodo para calcular el precio final de la reserva
+   */
   getPriceBooking(){
     const basic = Number(this.booking.room.basisCost)
     const tax = Number(this.booking.room.tax)
@@ -69,16 +83,11 @@ export class BookingDetailsComponent {
     this.priceBooking = basic + valueTax;
   }
 
-
   getDateFormatted(dateOrigin: any){
     const date = new Date(dateOrigin.seconds * 1000);
-
     const fechaFormateada1 = date.toLocaleDateString('es-ES',  { day: 'numeric', month: 'short', year: 'numeric' });
 
     return fechaFormateada1;
-
   }
-
-
 
 }

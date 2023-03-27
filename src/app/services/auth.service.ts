@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, Subscription } from 'rxjs';
-import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, user, User } from '@angular/fire/auth';
+import { map, Subscription } from 'rxjs';
+import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { UserModel } from '../core/models/user.model';
-import { Firestore, addDoc, collection, doc, getDoc, onSnapshot, query, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, onSnapshot, query, where } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import { Appstate } from '../state/app.reducers';
 import { setUser, unSetUser } from '../state/actions';
@@ -12,14 +12,12 @@ import { setUser, unSetUser } from '../state/actions';
 })
 export class AuthService {
   userSubscription: Subscription = new Subscription();
-  // userSubscription: any;
 
   constructor(
       private auth: Auth,
       private firestore: Firestore,
       private store: Store<Appstate>,
     ) { }
-
 
     initAuthListener(){
       this.userSubscription =  authState(this.auth).subscribe( fuser => {
@@ -50,7 +48,6 @@ export class AuthService {
     }
 
     login(email:string, password:string): Promise<any>{
-
       return signInWithEmailAndPassword(this.auth, email, password)
     }
 
