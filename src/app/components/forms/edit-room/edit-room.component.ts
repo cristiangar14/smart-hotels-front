@@ -7,8 +7,6 @@ import { Appstate } from 'src/app/state/app.reducers';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IRoom } from 'src/app/core/models/room.model';
 import { getRoomsByHotel, updateRoom } from 'src/app/state/actions';
-import { selectSuccessUpdateRoom } from 'src/app/state/selectors/updateRoom.selectors';
-import { RoomService } from 'src/app/services/room.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -26,7 +24,7 @@ export class EditRoomComponent implements OnInit, OnDestroy {
 
   updateActions: Subscription = new Subscription();
   formEditRoomHotel: FormGroup = new FormGroup({});
-  enableEdit: boolean = true;
+  enableEdit: boolean = false;
   loading:boolean = false;
   updated:boolean = false;
 
