@@ -1,4 +1,133 @@
+@use '@angular/material' as mat;
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+@include mat.core();
+
+
+/* For use in src/lib/core/theming/_palette.scss */
+$md-warn: (
+    50 : #e0f4ff,
+    100 : #b3e3ff,
+    200 : #80d1ff,
+    300 : #4dbeff,
+    400 : #26b0ff,
+    500 : #00a2ff,
+    600 : #009aff,
+    700 : #0090ff,
+    800 : #0086ff,
+    900 : #0075ff,
+    A100 : #ffffff,
+    A200 : #f2f7ff,
+    A400 : #bfd9ff,
+    A700 : #a6c9ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-primary: (
+    50 : #eef6ea,
+    100 : #d6eaca,
+    200 : #badca7,
+    300 : #9ecd84,
+    400 : #8ac369,
+    500 : #75b84f,
+    600 : #6db148,
+    700 : #62a83f,
+    800 : #58a036,
+    900 : #459126,
+    A100 : #ddffd1,
+    A200 : #b8ff9e,
+    A400 : #93ff6b,
+    A700 : #80ff52,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-accent: (
+    50 : #fff6e0,
+    100 : #ffe8b3,
+    200 : #ffd980,
+    300 : #ffca4d,
+    400 : #ffbe26,
+    500 : #ffb300,
+    600 : #ffac00,
+    700 : #ffa300,
+    800 : #ff9a00,
+    900 : #ff8b00,
+    A100 : #ffffff,
+    A200 : #fff9f2,
+    A400 : #ffdfbf,
+    A700 : #ffd2a6,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+
+
+$my-primary: mat.define-palette($md-primary, 500);
+$my-accent: mat.define-palette($md-accent, A200, A100, A400);
+
+
+// The "warn" palette is optional and defaults to red if not specified.
+$my-warn: mat.define-palette($md-warn);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+   warn: $my-warn,
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
+));
+
+// Emit theme-dependent styles for common features used across multiple components.
+@include mat.all-component-themes($my-theme);

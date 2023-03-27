@@ -1,5 +1,9 @@
 export const CITIES: { name: string, code: string }[] = [
   {
+    name: 'Todas',
+    code: ''
+  },
+  {
     name: 'Bogotá',
     code: 'BOG'
   },
