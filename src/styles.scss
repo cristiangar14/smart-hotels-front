@@ -112,7 +112,7 @@ $md-accent: (
 
 
 $my-primary: mat.define-palette($md-primary, 500);
-$my-accent: mat.define-palette($md-accent, A200, A100, A400);
+$my-accent: mat.define-palette($md-accent, A200, A400, A700);
 
 
 // The "warn" palette is optional and defaults to red if not specified.
