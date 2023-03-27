@@ -12,7 +12,7 @@
         <span matListItemTitle> <strong>{{guest.name}}</strong></span>
         <span matListItemLine> <strong>Email: </strong>{{guest.email}}</span>
         <span matListItemLine> <strong>Telefono: </strong>{{guest.phone}}</span>
-        <span matListItemLine> <strong>Docuneto: </strong>{{guest.documentType}}: {{guest.documnet}}</span>
+        <span matListItemLine> <strong>{{guest.documentType}}: </strong>{{guest.document}}</span>
         <span matListItemLine> <strong>Genero: </strong>{{guest.gender}}</span>
       </mat-list-item>
 
@@ -32,7 +32,7 @@
       </mat-list-item>
       <mat-list-item>
         <span matListItemTitle>
-          <strong>Fechas reserva: </strong>{{this.start}} - {{this.end}}
+          <strong>Fechas reserva: </strong>{{this.start}} <wbr>- {{this.end}}
         </span>
       </mat-list-item>
       <mat-list-item>
