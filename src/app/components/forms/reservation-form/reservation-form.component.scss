@@ -34,7 +34,41 @@ mat-card-header{
 }
 
 mat-form-field{
-  display: block;
-  min-width: 300px;
-  width: 47.5%;
+  min-width: 250px;
+  width: 100%;
+}
+
+
+
+mat-card-footer{
+  display: flex;
+  justify-content: center;
+
+  .btn-back{
+    max-width: 200px;
+    margin: 2em
+  }
+}
+
+
+
+@media (min-width: 750px){
+
+  mat-card-footer{
+    display: flex;
+    justify-content: flex-start;
+
+    .btn-back{
+      max-width: 200px;
+      margin: 2em
+    }
+  }
+
+  mat-form-field{
+    display: block;
+    min-width: 300px;
+    width: 47.5%;
+  }
+
+
 }

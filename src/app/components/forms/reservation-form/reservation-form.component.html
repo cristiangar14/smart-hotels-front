@@ -30,7 +30,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>Fecha de Nacimiento</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
-                <mat-hint>MM/DD/YYYY</mat-hint>
+
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="isFieldInvalid('guests.' + i + '.dateOfBirth', 'required')">
@@ -156,4 +156,17 @@
       Enviar</button>
     </form>
   </mat-card-content>
-<mat-card>
+
+  <mat-card-footer>
+      <button
+          mat-raised-button
+          color="accent"
+          type="button"
+          class="btn-back"
+          (click)="back()"
+          *ngIf="!loading"
+          >
+          Volver</button>
+
+    </mat-card-footer>
+  <mat-card>

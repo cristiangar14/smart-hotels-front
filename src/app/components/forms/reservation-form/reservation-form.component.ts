@@ -288,4 +288,8 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  back(){
+    this.router.navigate([`/hotels/${this.hotelSelect?.id}`])
+  }
+
 }
